@@ -45,12 +45,13 @@ const Container = styled.div`
   height: 100vh;
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
 `;
 
 const SideMenu = styled.div`
   display: flex;
   flex-direction: column;
-  width: 50%;
+  width: 45%;
   height: 100vh;
   background-color: #f8f9fa;
 `;

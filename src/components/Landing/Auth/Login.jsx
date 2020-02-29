@@ -8,7 +8,7 @@ const Login = () => {
       <Form className="sign-up-form">
         <Input type="email" placeholder="EMAIL ADDRESS" />
         <Input type="password" placeholder="PASSWORD" />
-        <SigninButton type="button">Sign Up Here</SigninButton>
+        <SigninButton type="button">Sign In Here</SigninButton>
       </Form>
     </>
   );
@@ -20,7 +20,7 @@ const H2 = styled.h2`
   font-size: 3rem;
   color: #eee;
   margin-top: 2rem;
-  text-align: center;
+  padding-left: 4.7rem;
 `;
 
 const Form = styled.form`
