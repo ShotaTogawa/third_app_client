@@ -3,7 +3,7 @@ import Landing from "./Landing/Landing";
 import UserDashboard from "./UserDashboard/UserDashboard";
 
 const App = () => {
-  return <Landing />;
+  return <UserDashboard />;
 };
 
 export default App;
