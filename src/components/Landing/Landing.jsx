@@ -21,10 +21,7 @@ const Landing = () => {
     <Container>
       <Slideview />
       <SideMenu>
-        <H2>
-          Take Pictures And <br />
-          Share Your Moments
-        </H2>
+        <H2>Take Pictures And Share Your Moments</H2>
         <P>Join now!</P>
         <SigninButton onClick={e => openModal("signin")}>Signin</SigninButton>
         <SignupButton onClick={e => openModal("signout")}>Signup</SignupButton>
@@ -53,7 +50,7 @@ const Container = styled.div`
 const SideMenu = styled.div`
   display: flex;
   flex-direction: column;
-  width: 30%;
+  width: 50%;
   height: 100vh;
   background-color: #f8f9fa;
 `;
@@ -66,7 +63,7 @@ const P = styled.p`
 
 const H2 = styled.h2`
   text-align: center;
-  margin-top: 60%;
+  margin-top: 40%;
   margin-bottom: 3rem;
   font-size: 3rem;
 `;

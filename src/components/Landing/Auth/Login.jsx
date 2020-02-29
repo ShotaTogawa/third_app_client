@@ -61,4 +61,10 @@ const SigninButton = styled.button`
   letter-spacing: 1px;
   text-transform: uppercase;
   cursor: pointer;
+  :hover {
+    background: linear-gradient(
+      rgba(41, 128, 185, 0.3),
+      rgba(109, 213, 250, 0.8)
+    );
+  }
 `;

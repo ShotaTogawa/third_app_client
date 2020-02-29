@@ -8,7 +8,7 @@ import familyImage from "../../../assets/images/family.jpg";
 import hikingImage from "../../../assets/images/hiking.jpg";
 
 const Wrapper = styled.div`
-  width: 75%;
+  width: 50%;
 `;
 
 const Images = styled.div`
