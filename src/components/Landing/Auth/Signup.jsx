@@ -1,15 +1,40 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 
 const Signup = () => {
+  const [userName, setUserName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassWord] = useState("");
+  const [confirmPassword, setConfirmPassWord] = useState("");
+  console.log(userName, email, password, confirmPassword);
   return (
     <>
       <H2>Signup</H2>
       <Form className="sign-up-form">
-        <Input type="text" placeholder="NAME" />
-        <Input type="email" placeholder="EMAIL ADDRESS" />
-        <Input type="password" placeholder="PASSWORD" />
-        <Input type="password" placeholder="PASSWORD COMFIRMATION" />
+        <Input
+          type="text"
+          placeholder="NAME"
+          value={userName}
+          onChange={e => setUserName(e.target.value)}
+        />
+        <Input
+          type="email"
+          placeholder="EMAIL ADDRESS"
+          value={email}
+          onChange={e => setEmail(e.target.value)}
+        />
+        <Input
+          type="password"
+          placeholder="PASSWORD"
+          value={password}
+          onChange={e => setPassWord(e.target.value)}
+        />
+        <Input
+          type="password"
+          placeholder="PASSWORD COMFIRMATION"
+          value={confirmPassword}
+          onChange={e => setConfirmPassWord(e.target.value)}
+        />
         <SigninButton type="button">Sign Up Here</SigninButton>
       </Form>
     </>
