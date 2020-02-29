@@ -22,7 +22,6 @@ const H2 = styled.h2`
   font-size: 3rem;
   color: #eee;
   margin-top: 2rem;
-  text-align: center;
 `;
 
 const Form = styled.form`

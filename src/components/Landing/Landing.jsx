@@ -50,7 +50,7 @@ const Container = styled.div`
 const SideMenu = styled.div`
   display: flex;
   flex-direction: column;
-  width: 50%;
+  width: 45%;
   height: 100vh;
   background-color: #f8f9fa;
 `;
