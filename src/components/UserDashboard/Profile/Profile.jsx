@@ -36,6 +36,7 @@ const ProfileWrapper = styled.div`
   width: 70rem;
   height: 20rem;
   margin: 0 auto;
+  padding-top: 5rem;
 `;
 
 const ProfileImageBox = styled.div`
