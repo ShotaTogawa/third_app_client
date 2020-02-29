@@ -1,7 +1,6 @@
 import React from "react";
 import styled from "styled-components";
 import Image from "./Image";
-import ImageCard from "./ImageCard";
 
 const ImageLine = () => {
   return (
@@ -16,5 +15,5 @@ export default ImageLine;
 const Wrapper = styled.div`
   width: 80%;
   height: auto;
-  margin: 2rem auto;
+  margin: 10rem auto 2rem auto;
 `;
