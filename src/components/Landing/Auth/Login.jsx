@@ -1,26 +1,70 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import { Redirect } from "react-router-dom";
+import Spinner from "../../Common/Spinner";
+import { ErrorMessage } from "../../Common/ErrorMessage";
 
 const Login = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassWord] = useState("");
+  const [values, setValues] = useState({
+    email: "",
+    password: "",
+    loading: "",
+    error: ""
+  });
+
+  const { email, password, loading, error } = values;
+
+  const isFormEmpty = ({ email, password }) => {
+    return !email.length || !password.length;
+  };
+
+  const isFormValid = () => {
+    if (isFormEmpty(values)) {
+      setValues({ ...values, error: "Please fill in all Fields" });
+      console.log(error);
+      return false;
+    }
+    return true;
+  };
+
+  const handleChange = name => event => {
+    setValues({ ...values, error: false, [name]: event.target.value });
+  };
+
+  const signin = async formValue => {
+    try {
+      return formValue;
+      // const response = await api.post("/api/signin", formValue);
+      // return response;
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const handleSubmit = e => {
+    e.preventDefault();
+    console.log(isFormValid());
+    console.log(signin(values));
+  };
+
   return (
     <>
       <H2>Login</H2>
-      <Form className="sign-up-form">
+      <Form onSubmit={handleSubmit}>
         <Input
           type="email"
           placeholder="EMAIL ADDRESS"
           value={email}
-          onChange={e => setEmail(e.target.value)}
+          onChange={handleChange("email")}
         />
         <Input
           type="password"
           placeholder="PASSWORD"
           value={password}
-          onChange={e => setPassWord(e.target.value)}
+          onChange={handleChange("password")}
         />
-        <SigninButton type="button">Sign In Here</SigninButton>
+        <SigninButton type="submit">Sign In Here</SigninButton>
+        {error ? <ErrorMessage>{error}</ErrorMessage> : ""}
       </Form>
     </>
   );
