@@ -23,11 +23,12 @@ const ModalStyles = styled.div`
   position: fixed;
   left: 50%;
   top: 50%;
+  filter: blur(0.05rem);
   transform: translate(-50%, -50%);
-  box-shadow: 0 20px 50px rgba(28, 32, 34, 0.4);
+  box-shadow: 0 20px 50px rgba(28, 32, 34, 0.8);
   background: linear-gradient(
-    rgba(41, 128, 185, 0.1),
-    rgba(109, 213, 250, 0.3)
+    rgba(41, 128, 185, 0.6),
+    rgba(109, 213, 250, 0.9)
   );
   z-index: 999;
   padding: 1rem 2rem 4rem;

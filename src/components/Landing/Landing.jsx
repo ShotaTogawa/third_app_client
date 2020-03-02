@@ -21,7 +21,10 @@ const Landing = () => {
     <Container>
       <Slideview />
       <SideMenu>
-        <H2>Take Pictures And Share Your Moments</H2>
+        <H2>
+          Take Pictures And <br />
+          Share Your Moments
+        </H2>
         <P>Join now!</P>
         <SigninButton onClick={e => openModal("signin")}>Signin</SigninButton>
         <SignupButton onClick={e => openModal("signout")}>Signup</SignupButton>
@@ -70,7 +73,7 @@ const H2 = styled.h2`
 
 const SigninButton = styled.button`
   margin: 0 auto 2rem auto;
-  width: 60%;
+  width: 40%;
   padding: 5px 0;
   font-size: 2rem;
   border-radius: 1.8rem;
@@ -82,7 +85,7 @@ const SigninButton = styled.button`
 
 const SignupButton = styled.button`
   margin: 0 auto;
-  width: 60%;
+  width: 40%;
   padding: 5px 0;
   font-size: 2rem;
   border-radius: 1.8rem;

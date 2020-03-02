@@ -1,16 +1,97 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
+import { ErrorMessage } from "../../Common/ErrorMessage";
 
 const Signup = () => {
+  const [values, setValues] = useState({
+    name: "",
+    email: "",
+    password: ""
+  });
+
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  const { name, email, password } = values;
+
+  const isFormEmpty = ({ name, email, password }, confirmPassword) => {
+    return (
+      !name.length ||
+      !email.length ||
+      !password.length ||
+      !confirmPassword.length
+    );
+  };
+
+  const checkPassword = ({ password }, confirmPassword) => {
+    if (password && password === confirmPassword) return true;
+    return false;
+  };
+
+  const isFormValid = () => {
+    if (isFormEmpty(values, confirmPassword)) {
+      setError("Please fill in all Fields");
+      console.log(error);
+      return false;
+    }
+    if (!checkPassword(values, confirmPassword)) {
+      setError("Password was wrong");
+    }
+
+    return true;
+  };
+
+  const handleChange = name => event => {
+    setError("");
+    setValues({ ...values, [name]: event.target.value });
+  };
+
+  const signup = async formValue => {
+    isFormValid();
+    try {
+      return formValue;
+      // const response = await api.post("/api/signin", formValue);
+      // return response;
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const handleSubmit = e => {
+    e.preventDefault();
+    signup();
+  };
   return (
     <>
       <H2>Signup</H2>
-      <Form className="sign-up-form">
-        <Input type="text" placeholder="NAME" />
-        <Input type="email" placeholder="EMAIL ADDRESS" />
-        <Input type="password" placeholder="PASSWORD" />
-        <Input type="password" placeholder="PASSWORD COMFIRMATION" />
-        <SigninButton type="button">Sign Up Here</SigninButton>
+      <Form onSubmit={handleSubmit}>
+        <Input
+          type="text"
+          placeholder="NAME"
+          value={name}
+          onChange={handleChange("name")}
+        />
+        <Input
+          type="email"
+          placeholder="EMAIL ADDRESS"
+          value={email}
+          onChange={handleChange("email")}
+        />
+        <Input
+          type="password"
+          placeholder="PASSWORD"
+          value={password}
+          onChange={handleChange("password")}
+        />
+        <Input
+          type="password"
+          placeholder="PASSWORD COMFIRMATION"
+          value={confirmPassword}
+          onChange={e => setConfirmPassword(e.target.value)}
+        />
+        <SigninButton type="submit">Sign Up Here</SigninButton>
+        {error ? <ErrorMessage>{error}</ErrorMessage> : ""}
       </Form>
     </>
   );

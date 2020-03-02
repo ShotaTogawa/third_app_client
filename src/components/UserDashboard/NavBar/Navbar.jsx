@@ -1,8 +1,22 @@
 import React from "react";
 import styled from "styled-components";
 import DrawerToggleButton from "./DrawerToggleButton";
+import { withRouter } from "react-router-dom";
 
-const Navbar = ({ setSideDrawerOpen }) => {
+const Navbar = ({ setSideDrawerOpen, history }) => {
+  const signout = async next => {
+    if (typeof window !== "undefined") {
+      localStorage.removeItem("jwt");
+      next();
+      try {
+        // const response = await api.get("/api/signout");
+        console.log("signout");
+        // return response;
+      } catch (e) {
+        console.log(e);
+      }
+    }
+  };
   return (
     <Header>
       <Nav>
@@ -15,7 +29,15 @@ const Navbar = ({ setSideDrawerOpen }) => {
           <ul>
             <li>Home</li>
             <li>Post</li>
-            <li>Signuout</li>
+            <li
+              onClick={() =>
+                signout(() => {
+                  history.push("/");
+                })
+              }
+            >
+              Signuout
+            </li>
           </ul>
         </NavigationItems>
       </Nav>
@@ -23,7 +45,7 @@ const Navbar = ({ setSideDrawerOpen }) => {
   );
 };
 
-export default Navbar;
+export default withRouter(Navbar);
 
 const Header = styled.header`
   position: fixed;

@@ -1,14 +1,72 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
+import { Redirect } from "react-router-dom";
+import Spinner from "../../Common/Spinner";
+import { ErrorMessage } from "../../Common/ErrorMessage";
 
 const Login = () => {
+  const [values, setValues] = useState({
+    email: "",
+    password: ""
+  });
+
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  const { email, password } = values;
+
+  const isFormEmpty = ({ email, password }) => {
+    return !email.length || !password.length;
+  };
+
+  const isFormValid = () => {
+    if (isFormEmpty(values)) {
+      // setValues({ ...values, error: "Please fill in all Fields" });
+      setError("Please fill in all Fields");
+      console.log(error);
+      return false;
+    }
+    return true;
+  };
+
+  const handleChange = name => event => {
+    setValues({ ...values, [name]: event.target.value });
+  };
+
+  const signin = async formValue => {
+    try {
+      return formValue;
+      // const response = await api.post("/api/signin", formValue);
+      // return response;
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const handleSubmit = e => {
+    e.preventDefault();
+    console.log(isFormValid());
+    console.log(signin(values));
+  };
+
   return (
     <>
       <H2>Login</H2>
-      <Form className="sign-up-form">
-        <Input type="email" placeholder="EMAIL ADDRESS" />
-        <Input type="password" placeholder="PASSWORD" />
-        <SigninButton type="button">Sign In Here</SigninButton>
+      <Form onSubmit={handleSubmit}>
+        <Input
+          type="email"
+          placeholder="EMAIL ADDRESS"
+          value={email}
+          onChange={handleChange("email")}
+        />
+        <Input
+          type="password"
+          placeholder="PASSWORD"
+          value={password}
+          onChange={handleChange("password")}
+        />
+        <SigninButton type="submit">Sign In Here</SigninButton>
+        {error ? <ErrorMessage>{error}</ErrorMessage> : ""}
       </Form>
     </>
   );
