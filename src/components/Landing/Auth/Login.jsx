@@ -7,12 +7,13 @@ import { ErrorMessage } from "../../Common/ErrorMessage";
 const Login = () => {
   const [values, setValues] = useState({
     email: "",
-    password: "",
-    loading: "",
-    error: ""
+    password: ""
   });
 
-  const { email, password, loading, error } = values;
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  const { email, password } = values;
 
   const isFormEmpty = ({ email, password }) => {
     return !email.length || !password.length;
@@ -20,7 +21,8 @@ const Login = () => {
 
   const isFormValid = () => {
     if (isFormEmpty(values)) {
-      setValues({ ...values, error: "Please fill in all Fields" });
+      // setValues({ ...values, error: "Please fill in all Fields" });
+      setError("Please fill in all Fields");
       console.log(error);
       return false;
     }
@@ -28,7 +30,7 @@ const Login = () => {
   };
 
   const handleChange = name => event => {
-    setValues({ ...values, error: false, [name]: event.target.value });
+    setValues({ ...values, [name]: event.target.value });
   };
 
   const signin = async formValue => {

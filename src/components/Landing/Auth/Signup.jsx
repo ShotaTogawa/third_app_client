@@ -6,15 +6,16 @@ const Signup = () => {
   const [values, setValues] = useState({
     name: "",
     email: "",
-    password: "",
-    confirmPassword: "",
-    loading: "",
-    error: ""
+    password: ""
   });
 
-  const { name, email, password, confirmPassword, loading, error } = values;
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
-  const isFormEmpty = ({ name, email, password, confirmPassword }) => {
+  const { name, email, password } = values;
+
+  const isFormEmpty = ({ name, email, password }, confirmPassword) => {
     return (
       !name.length ||
       !email.length ||
@@ -23,25 +24,27 @@ const Signup = () => {
     );
   };
 
-  const checkPassword = ({ password, confirmPassword }) => {
+  const checkPassword = ({ password }, confirmPassword) => {
     if (password && password === confirmPassword) return true;
     return false;
   };
 
   const isFormValid = () => {
-    if (isFormEmpty(values)) {
-      setValues({ ...values, error: "Please fill in all Fields" });
+    if (isFormEmpty(values, confirmPassword)) {
+      setError("Please fill in all Fields");
       console.log(error);
       return false;
     }
-    if (!checkPassword(values))
-      setValues({ ...values, error: "Password was wrong" });
+    if (!checkPassword(values, confirmPassword)) {
+      setError("Password was wrong");
+    }
 
     return true;
   };
 
   const handleChange = name => event => {
-    setValues({ ...values, error: false, [name]: event.target.value });
+    setError("");
+    setValues({ ...values, [name]: event.target.value });
   };
 
   const signup = async formValue => {
@@ -85,7 +88,7 @@ const Signup = () => {
           type="password"
           placeholder="PASSWORD COMFIRMATION"
           value={confirmPassword}
-          onChange={handleChange("confirmPassword")}
+          onChange={e => setConfirmPassword(e.target.value)}
         />
         <SigninButton type="submit">Sign Up Here</SigninButton>
         {error ? <ErrorMessage>{error}</ErrorMessage> : ""}
