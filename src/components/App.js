@@ -1,9 +1,9 @@
-import React from "react";
-import Landing from "./Landing/Landing";
-import UserDashboard from "./UserDashboard/UserDashboard";
+import React from 'react'
+import Landing from './Landing/Landing'
+// import UserDashboard from './UserDashboard/UserDashboard'
 
 const App = () => {
-  return <Landing />;
-};
+  return <Landing />
+}
 
-export default App;
+export default App

@@ -1,8 +1,8 @@
-import React from "react";
-import { BrowserRouter, Switch, Route } from "react-router-dom";
+import React from 'react'
+import { BrowserRouter, Switch, Route } from 'react-router-dom'
 
-import App from "./components/App";
-import UserDashboard from "./components/UserDashboard/UserDashboard";
+import App from './components/App'
+import UserDashboard from './components/UserDashboard/UserDashboard'
 
 const Router = () => {
   return (
@@ -12,7 +12,7 @@ const Router = () => {
         <Route path="/user" exact component={UserDashboard} />
       </Switch>
     </BrowserRouter>
-  );
-};
+  )
+}
 
-export default Router;
+export default Router
