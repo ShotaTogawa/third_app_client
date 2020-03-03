@@ -2,13 +2,16 @@ import React from "react";
 import styled from "styled-components";
 
 const SideDrawer = ({ show }) => {
-  console.log(show);
+  const signout = () => {
+    localStorage.removeItem("jwt");
+    history.push("/");
+  };
   return (
     <Nav open={show}>
       <ul>
         <li>Home</li>
         <li>Post</li>
-        <li>Signout</li>
+        <li onClick={signout}>Signout</li>
       </ul>
     </Nav>
   );
