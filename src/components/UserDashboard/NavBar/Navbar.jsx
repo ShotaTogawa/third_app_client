@@ -4,18 +4,9 @@ import DrawerToggleButton from "./DrawerToggleButton";
 import { withRouter } from "react-router-dom";
 
 const Navbar = ({ setSideDrawerOpen, history }) => {
-  const signout = async next => {
-    if (typeof window !== "undefined") {
-      localStorage.removeItem("jwt");
-      next();
-      try {
-        // const response = await api.get("/api/signout");
-        console.log("signout");
-        // return response;
-      } catch (e) {
-        console.log(e);
-      }
-    }
+  const signout = () => {
+    localStorage.removeItem("jwt");
+    history.push("/");
   };
   return (
     <Header>
@@ -29,15 +20,7 @@ const Navbar = ({ setSideDrawerOpen, history }) => {
           <ul>
             <li>Home</li>
             <li>Post</li>
-            <li
-              onClick={() =>
-                signout(() => {
-                  history.push("/");
-                })
-              }
-            >
-              Signuout
-            </li>
+            <li onClick={signout}>Signuout</li>
           </ul>
         </NavigationItems>
       </Nav>
