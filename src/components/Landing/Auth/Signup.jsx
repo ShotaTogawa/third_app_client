@@ -1,8 +1,13 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { ErrorMessage } from "../../Common/ErrorMessage";
+import { setAuthToken } from ".";
+import { api } from "../../../api";
+import Spinner from "../../Common/Spinner";
+import { authenticate } from "../Auth";
+import { withRouter } from "react-router-dom";
 
-const Signup = () => {
+const Signup = ({ history }) => {
   const [values, setValues] = useState({
     name: "",
     email: "",
@@ -32,7 +37,6 @@ const Signup = () => {
   const isFormValid = () => {
     if (isFormEmpty(values, confirmPassword)) {
       setError("Please fill in all Fields");
-      console.log(error);
       return false;
     }
     if (!checkPassword(values, confirmPassword)) {
@@ -50,9 +54,10 @@ const Signup = () => {
   const signup = async formValue => {
     isFormValid();
     try {
-      return formValue;
-      // const response = await api.post("/api/signin", formValue);
-      // return response;
+      const response = await api.post("/api/signup", formValue);
+      setAuthToken(response.data.token);
+      authenticate(response.data);
+      history.push("/user");
     } catch (e) {
       console.log(e);
     }
@@ -60,10 +65,13 @@ const Signup = () => {
 
   const handleSubmit = e => {
     e.preventDefault();
-    signup();
+    setLoading(true);
+    signup(values);
+    setLoading(false);
   };
   return (
     <>
+      {loading ? <Spinner /> : ""}
       <H2>Signup</H2>
       <Form onSubmit={handleSubmit}>
         <Input
@@ -97,7 +105,7 @@ const Signup = () => {
   );
 };
 
-export default Signup;
+export default withRouter(Signup);
 
 const H2 = styled.h2`
   font-size: 3rem;
