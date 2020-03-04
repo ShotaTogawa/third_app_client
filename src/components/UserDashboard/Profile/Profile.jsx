@@ -1,8 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import userImage from "../../../assets/images/user.svg";
+import UpdateProfileForm from "./UpdateProfileForm";
+import UserModal from "../UserModal";
 
 const Profile = () => {
+  const [isOpen, setIsOpen] = useState(false);
+
   const a =
     "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, ";
   return (
@@ -13,6 +17,15 @@ const Profile = () => {
       <ProfileInfoBox>
         <Name>
           <h2>Amazon kindle</h2>
+          <UpdateButton onClick={() => setIsOpen(true)}>Edit User</UpdateButton>
+          <UserModal
+            isOpen={isOpen}
+            onClose={e => {
+              setIsOpen(false);
+            }}
+          >
+            <UpdateProfileForm />
+          </UserModal>
         </Name>
         <Counter>
           <UL>
@@ -60,8 +73,11 @@ const ProfileInfoBox = styled.div`
 
 const Name = styled.div`
   height: 5rem;
-  font-size: 3rem;
+  font-size: 2rem;
   padding-top: 0.5rem;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 `;
 
 const Counter = styled.div`
@@ -88,4 +104,26 @@ const Introduction = styled.div`
   height: 10rem;
   font-size: 1.8rem;
   letter-spacing: 0.1rem;
+`;
+
+const UpdateButton = styled.button`
+  display: block;
+  width: 100px;
+  margin-left: 1rem;
+  padding: 3px 3px;
+  background-color: rgba(109, 213, 250, 0.8);
+  color: #fff;
+  border: 2px solid #fff;
+  border-radius: 50px;
+  outline: none;
+  font-family: "Roboto Condensed", sans-serif;
+  font-size: 15px;
+  letter-spacing: 1px;
+  cursor: pointer;
+  :hover {
+    background: linear-gradient(
+      rgba(41, 128, 185, 0.3),
+      rgba(109, 213, 250, 0.8)
+    );
+  }
 `;

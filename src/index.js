@@ -4,6 +4,13 @@ import './index.css'
 
 import * as serviceWorker from './serviceWorker'
 import Router from './Router'
+import { setAuthToken, isAuthenticated } from './components/Landing/Auth'
+
+const { accessToken } = isAuthenticated()
+
+if (accessToken) {
+  setAuthToken(accessToken)
+}
 
 ReactDOM.render(<Router />, document.getElementById('root'))
 

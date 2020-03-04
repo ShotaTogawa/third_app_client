@@ -1,7 +1,9 @@
 import React from "react";
 import styled from "styled-components";
+import { withRouter
+ } from "react-router-dom";
 
-const SideDrawer = ({ show }) => {
+const SideDrawer = ({ show, history }) => {
   const signout = () => {
     localStorage.removeItem("jwt");
     history.push("/");
@@ -17,7 +19,7 @@ const SideDrawer = ({ show }) => {
   );
 };
 
-export default SideDrawer;
+export default withRouter(SideDrawer);
 
 const Nav = styled.nav`
   height: 100%;
