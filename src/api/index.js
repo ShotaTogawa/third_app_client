@@ -1,7 +1,5 @@
 import axios from 'axios'
 
-const accessPoint = process.env.REACT_APP_ACCESS_POINT
-
 export const api = axios.create({
-  baseURL: accessPoint
+  baseURL: process.env.REACT_APP_ACCESS_POINT
 })

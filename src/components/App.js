@@ -1,9 +1,23 @@
 import React from 'react'
 import Landing from './Landing/Landing'
-// import UserDashboard from './UserDashboard/UserDashboard'
+import { isAuthenticated } from './Landing/Auth'
+import { Redirect } from 'react-router-dom'
+const { accessToken } = isAuthenticated()
 
+const redirectUser = () => {
+  if (accessToken) return <Redirect to="/user" />
+
+  if (!accessToken) return <Redirect to="/" />
+}
+
+console.log(accessToken)
 const App = () => {
-  return <Landing />
+  return (
+    <>
+      <Landing />
+      {redirectUser()}
+    </>
+  )
 }
 
 export default App

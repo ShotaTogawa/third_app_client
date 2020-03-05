@@ -1,20 +1,21 @@
 import React from "react";
 import styled from "styled-components";
+import { withRouter } from "react-router-dom";
+import { signout } from "../../Landing/Auth";
 
-const SideDrawer = ({ show }) => {
-  console.log(show);
+const SideDrawer = ({ show, history }) => {
   return (
     <Nav open={show}>
       <ul>
         <li>Home</li>
         <li>Post</li>
-        <li>Signout</li>
+        <li onClick={() => signout(history)}>Signout</li>
       </ul>
     </Nav>
   );
 };
 
-export default SideDrawer;
+export default withRouter(SideDrawer);
 
 const Nav = styled.nav`
   height: 100%;

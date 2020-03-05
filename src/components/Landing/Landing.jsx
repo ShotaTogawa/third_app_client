@@ -27,7 +27,7 @@ const Landing = () => {
         </H2>
         <P>Join now!</P>
         <SigninButton onClick={e => openModal("signin")}>Signin</SigninButton>
-        <SignupButton onClick={e => openModal("signout")}>Signup</SignupButton>
+        <SignupButton onClick={e => openModal("signup")}>Signup</SignupButton>
       </SideMenu>
       <Modal
         isOpen={isOpen}

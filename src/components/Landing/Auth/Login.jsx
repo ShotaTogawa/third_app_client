@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { Redirect } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 import Spinner from "../../Common/Spinner";
 import { ErrorMessage } from "../../Common/ErrorMessage";
+import { setAuthToken, authenticate } from ".";
+import { api } from "../../../api";
 
-const Login = () => {
+const Login = ({ history }) => {
   const [values, setValues] = useState({
     email: "",
     password: ""
@@ -35,9 +37,10 @@ const Login = () => {
 
   const signin = async formValue => {
     try {
-      return formValue;
-      // const response = await api.post("/api/signin", formValue);
-      // return response;
+      const response = await api.post("/api/signin", formValue);
+      setAuthToken(response.data.token);
+      authenticate(response.data);
+      history.push("/user");
     } catch (e) {
       console.log(e);
     }
@@ -45,12 +48,15 @@ const Login = () => {
 
   const handleSubmit = e => {
     e.preventDefault();
-    console.log(isFormValid());
-    console.log(signin(values));
+    isFormValid();
+    setLoading(true);
+    signin(values);
+    setLoading(false);
   };
 
   return (
     <>
+      {loading ? <Spinner /> : ""}
       <H2>Login</H2>
       <Form onSubmit={handleSubmit}>
         <Input
@@ -72,7 +78,7 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default withRouter(Login);
 
 const H2 = styled.h2`
   font-size: 3rem;

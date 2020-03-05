@@ -4,7 +4,11 @@ module.exports = {
     es6: true,
     "jest/globals": true
   },
-  extends: ["plugin:react/recommended", "standard"],
+  extends: [
+    "plugin:react/recommended",
+    "standard",
+    "plugin:prettier/recommended"
+  ],
   globals: {
     Atomics: "readonly",
     SharedArrayBuffer: "readonly"
@@ -16,6 +20,14 @@ module.exports = {
     ecmaVersion: 2018,
     sourceType: "module"
   },
-  plugins: ["react", "jest"],
-  rules: {}
+  plugins: ["react", "jest", "prettier"],
+  rules: {
+    "prettier/prettier": [
+      "error",
+      {
+        singleQuote: true,
+        semi: false
+      }
+    ]
+  }
 };
