@@ -18,12 +18,7 @@ const Profile = () => {
         <Name>
           <h2>Amazon kindle</h2>
           <UpdateButton onClick={() => setIsOpen(true)}>Edit User</UpdateButton>
-          <UserModal
-            isOpen={isOpen}
-            onClose={e => {
-              setIsOpen(false);
-            }}
-          >
+          <UserModal isOpen={isOpen} onClose={() => setIsOpen(false)}>
             <UpdateProfileForm />
           </UserModal>
         </Name>

@@ -2,12 +2,9 @@ import React from "react";
 import styled from "styled-components";
 import DrawerToggleButton from "./DrawerToggleButton";
 import { withRouter } from "react-router-dom";
+import { signout } from "../../Landing/Auth";
 
 const Navbar = ({ setSideDrawerOpen, history }) => {
-  const signout = () => {
-    localStorage.removeItem("jwt");
-    history.push("/");
-  };
   return (
     <Header>
       <Nav>
@@ -20,7 +17,7 @@ const Navbar = ({ setSideDrawerOpen, history }) => {
           <ul>
             <li>Home</li>
             <li>Post</li>
-            <li onClick={signout}>Signuout</li>
+            <li onClick={() => signout(history)}>Signuout</li>
           </ul>
         </NavigationItems>
       </Nav>

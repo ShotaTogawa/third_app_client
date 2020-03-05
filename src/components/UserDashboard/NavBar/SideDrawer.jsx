@@ -1,19 +1,15 @@
 import React from "react";
 import styled from "styled-components";
-import { withRouter
- } from "react-router-dom";
+import { withRouter } from "react-router-dom";
+import { signout } from "../../Landing/Auth";
 
 const SideDrawer = ({ show, history }) => {
-  const signout = () => {
-    localStorage.removeItem("jwt");
-    history.push("/");
-  };
   return (
     <Nav open={show}>
       <ul>
         <li>Home</li>
         <li>Post</li>
-        <li onClick={signout}>Signout</li>
+        <li onClick={() => signout(history)}>Signout</li>
       </ul>
     </Nav>
   );

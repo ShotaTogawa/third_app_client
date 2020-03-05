@@ -62,23 +62,27 @@ const UpdateProfileForm = ({ history }) => {
 
   const handleSubmit = async e => {
     e.preventDefault();
-    setLoading(true);
-    if (file) {
-      await updateProfilePicture(file);
+    try {
+      setLoading(true);
+      if (file) {
+        await updateProfilePicture(file);
+      }
+      if (accessToken) {
+        await setAuthToken(accessToken);
+      }
+      await updateProfile(values);
+      setLoading(false);
+      history.push("/user");
+    } catch (e) {
+      // TODO error処置を書く
+      setLoading(false);
     }
-    if (accessToken) {
-      await setAuthToken(accessToken);
-    }
-    await updateProfile(values);
-    setLoading(false);
-    history.push("/user");
   };
   return (
     <>
       {loading ? <Spinner /> : ""}
       <H2>Edit Profile</H2>
       <Form onSubmit={handleSubmit}>
-        {/* <div> */}
         <Input
           type="text"
           placeholder="NAME"
@@ -91,21 +95,6 @@ const UpdateProfileForm = ({ history }) => {
           value={email}
           onChange={handleChange("email")}
         />
-        {/* </div> */}
-        {/* <div>
-          <Input
-            type="password"
-            placeholder="OLD PASSWORD"
-            value={oldPassword}
-            onChange={handleChange("oldPassword")}
-          />
-          <Input
-            type="password"
-            placeholder="NEW PASSWORD"
-            value={newPassword}
-            onChange={handleChange("newPassword")}
-          />
-        </div> */}
         <TextArea
           placeholder="INTRODUCTION YOURSELF"
           onChange={handleChange("introduction")}
