@@ -26,12 +26,12 @@ const Landing = () => {
           Share Your Moments
         </H2>
         <P>Join now!</P>
-        <SigninButton onClick={e => openModal("signin")}>Signin</SigninButton>
-        <SignupButton onClick={e => openModal("signup")}>Signup</SignupButton>
+        <SigninButton onClick={() => openModal("signin")}>Signin</SigninButton>
+        <SignupButton onClick={() => openModal("signup")}>Signup</SignupButton>
       </SideMenu>
       <Modal
         isOpen={isOpen}
-        onClose={e => {
+        onClose={() => {
           setIsOpen(false);
         }}
       >

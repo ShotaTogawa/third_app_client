@@ -1,36 +1,61 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import userImage from "../../../assets/images/user.svg";
 import UpdateProfileForm from "./UpdateProfileForm";
 import UserModal from "../UserModal";
+import { api } from "../../../api";
 
 const Profile = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [currentUser, setCurrentUser] = useState(null);
 
-  const a =
-    "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, ";
+  useEffect(() => {
+    api.get("/api/user").then(user => {
+      return setCurrentUser(user.data);
+    });
+  }, []);
+
   return (
     <ProfileWrapper>
-      <ProfileImageBox>
-        <UserImage src={userImage} />
-      </ProfileImageBox>
-      <ProfileInfoBox>
-        <Name>
-          <h2>Amazon kindle</h2>
-          <UpdateButton onClick={() => setIsOpen(true)}>Edit User</UpdateButton>
-          <UserModal isOpen={isOpen} onClose={() => setIsOpen(false)}>
-            <UpdateProfileForm />
-          </UserModal>
-        </Name>
-        <Counter>
-          <UL>
-            <ListItem>Posts 10000</ListItem>
-            <ListItem>Follow 10000</ListItem>
-            <ListItem>Followers 10000</ListItem>
-          </UL>
-        </Counter>
-        <Introduction>{a}</Introduction>
-      </ProfileInfoBox>
+      {currentUser ? (
+        <>
+          <ProfileImageBox>
+            <UserImage
+              src={
+                currentUser.image
+                  ? process.env.REACT_APP_S3_AVATAR_ACCESS_POINT +
+                    currentUser.image
+                  : userImage
+              }
+            />
+          </ProfileImageBox>
+          <ProfileInfoBox>
+            <Name>
+              <h2>{currentUser.name}</h2>
+              <UpdateButton onClick={() => setIsOpen(true)}>
+                Edit User
+              </UpdateButton>
+              <UserModal isOpen={isOpen} onClose={() => setIsOpen(false)}>
+                <UpdateProfileForm
+                  currentUser={currentUser}
+                  setIsOpen={setIsOpen}
+                  setCurrentUser={setCurrentUser}
+                />
+              </UserModal>
+            </Name>
+            <Counter>
+              <UL>
+                <ListItem>Posts 10000</ListItem>
+                <ListItem>Follow 10000</ListItem>
+                <ListItem>Followers 10000</ListItem>
+              </UL>
+            </Counter>
+            <Introduction>{currentUser.introduction}</Introduction>
+          </ProfileInfoBox>
+        </>
+      ) : (
+        ""
+      )}
     </ProfileWrapper>
   );
 };

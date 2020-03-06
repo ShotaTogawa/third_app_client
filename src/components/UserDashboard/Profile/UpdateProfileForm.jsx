@@ -6,13 +6,18 @@ import { ErrorMessage } from "../../Common/ErrorMessage";
 import { withRouter } from "react-router-dom";
 import { isAuthenticated, setAuthToken } from "../../Landing/Auth";
 
-const UpdateProfileForm = ({ history }) => {
+const UpdateProfileForm = ({
+  history,
+  currentUser,
+  setIsOpen,
+  setCurrentUser
+}) => {
   const { accessToken } = isAuthenticated();
   const [values, setValues] = useState({
-    name: "",
-    email: "",
-    introduction: "",
-    imageUrl: ""
+    name: currentUser.name,
+    email: currentUser.email,
+    introduction: currentUser.introduction,
+    photoUrl: currentUser.image
   });
 
   const [file, setFile] = useState(null);
@@ -33,8 +38,7 @@ const UpdateProfileForm = ({ history }) => {
 
   const putImageToBucket = async uploadConfig => {
     await delete api.defaults.headers.common["Authorization"];
-    console.log("file" + file);
-    console.log("upconfig" + uploadConfig.data.url);
+    setValues({ ...values, ["photoUrl"]: uploadConfig.data.key });
     await api.put(uploadConfig.data.url, file, {
       headers: {
         "Content-Type": file.type
@@ -44,8 +48,7 @@ const UpdateProfileForm = ({ history }) => {
 
   const updateProfilePicture = async () => {
     try {
-      const uploadConfig = await api.get("/api/upload");
-      setValues({ ...values, imageUrl: uploadConfig.data.key });
+      let uploadConfig = await api.get("/api/upload");
       await putImageToBucket(uploadConfig);
     } catch (e) {
       console.log(e);
@@ -54,7 +57,8 @@ const UpdateProfileForm = ({ history }) => {
 
   const updateProfile = async formValue => {
     try {
-      await api.patch("/api/user/edit", formValue);
+      const response = await api.patch("/api/user/edit", formValue);
+      setCurrentUser(response.data);
     } catch (e) {
       console.log(e);
     }
@@ -65,14 +69,15 @@ const UpdateProfileForm = ({ history }) => {
     try {
       setLoading(true);
       if (file) {
-        await updateProfilePicture(file);
+        await updateProfilePicture();
       }
       if (accessToken) {
         await setAuthToken(accessToken);
       }
       await updateProfile(values);
       setLoading(false);
-      history.push("/user");
+      setIsOpen(false);
+      // history.push('/user')
     } catch (e) {
       // TODO error処置を書く
       setLoading(false);
@@ -191,8 +196,8 @@ const Label = styled.label`
 `;
 
 const FileInput = styled.input`
-  display: none;
-  width: 45%;
+  // display: none;
+  width: 100%;
   margin-right: 1rem;
   font-family: "Oswald", sans-serif;
   font-size: 2rem;
