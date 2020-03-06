@@ -1,5 +1,5 @@
-import React from "react";
-import styled from "styled-components";
+import React from 'react';
+import styled from 'styled-components';
 
 const BackDrop = ({ click }) => {
   return <Wrapper onClick={() => click(false)}></Wrapper>;

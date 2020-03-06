@@ -1,19 +1,19 @@
-import React, { useState } from "react";
-import styled from "styled-components";
-import { withRouter } from "react-router-dom";
-import Spinner from "../../Common/Spinner";
-import { ErrorMessage } from "../../Common/ErrorMessage";
-import { setAuthToken, authenticate } from ".";
-import { api } from "../../../api";
+import React, { useState } from 'react';
+import styled from 'styled-components';
+import { withRouter } from 'react-router-dom';
+import Spinner from '../../Common/Spinner';
+import { ErrorMessage } from '../../Common/ErrorMessage';
+import { setAuthToken, authenticate } from '.';
+import { api } from '../../../api';
 
 const Login = ({ history }) => {
   const [values, setValues] = useState({
-    email: "",
-    password: ""
+    email: '',
+    password: ''
   });
 
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
+  const [error, setError] = useState('');
 
   const { email, password } = values;
 
@@ -24,7 +24,7 @@ const Login = ({ history }) => {
   const isFormValid = () => {
     if (isFormEmpty(values)) {
       // setValues({ ...values, error: "Please fill in all Fields" });
-      setError("Please fill in all Fields");
+      setError('Please fill in all Fields');
       console.log(error);
       return false;
     }
@@ -37,10 +37,10 @@ const Login = ({ history }) => {
 
   const signin = async formValue => {
     try {
-      const response = await api.post("/api/signin", formValue);
+      const response = await api.post('/api/signin', formValue);
       setAuthToken(response.data.token);
       authenticate(response.data);
-      history.push("/user");
+      history.push('/user');
     } catch (e) {
       console.log(e);
     }
@@ -56,23 +56,23 @@ const Login = ({ history }) => {
 
   return (
     <>
-      {loading ? <Spinner /> : ""}
+      {loading ? <Spinner /> : ''}
       <H2>Login</H2>
       <Form onSubmit={handleSubmit}>
         <Input
           type="email"
           placeholder="EMAIL ADDRESS"
           value={email}
-          onChange={handleChange("email")}
+          onChange={handleChange('email')}
         />
         <Input
           type="password"
           placeholder="PASSWORD"
           value={password}
-          onChange={handleChange("password")}
+          onChange={handleChange('password')}
         />
         <SigninButton type="submit">Sign In Here</SigninButton>
-        {error ? <ErrorMessage>{error}</ErrorMessage> : ""}
+        {error ? <ErrorMessage>{error}</ErrorMessage> : ''}
       </Form>
     </>
   );
@@ -95,7 +95,7 @@ const Form = styled.form`
 
 const Input = styled.input`
   width: 350px;
-  font-family: "Oswald", sans-serif;
+  font-family: 'Oswald', sans-serif;
   font-size: 2.5rem;
   letter-spacing: 1px;
   color: #eee;
@@ -120,7 +120,7 @@ const SigninButton = styled.button`
   border: 2px solid #fff;
   border-radius: 50px;
   outline: none;
-  font-family: "Roboto Condensed", sans-serif;
+  font-family: 'Roboto Condensed', sans-serif;
   font-size: 15px;
   letter-spacing: 1px;
   text-transform: uppercase;

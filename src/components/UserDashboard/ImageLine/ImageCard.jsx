@@ -1,6 +1,6 @@
-import React from "react";
-import styled from "styled-components";
-import yoga from "../../../assets/images/yoga.jpg";
+import React from 'react';
+import styled from 'styled-components';
+import yoga from '../../../assets/images/yoga.jpg';
 
 const WorkCard = () => {
   return (
@@ -43,7 +43,7 @@ const ImageDetail = styled.div`
 `;
 
 const H1 = styled.h1`
-  font-family: "Ubuntu", sans-serif;
+  font-family: 'Ubuntu', sans-serif;
   font-size: 2.5rem;
   color: #555;
   margin-top: 5rem;
@@ -56,7 +56,7 @@ const Image = styled.img`
 `;
 
 const AboutApp = styled.p`
-  font-family: "Josefin Sans", sans-serif;
+  font-family: 'Josefin Sans', sans-serif;
   font-size: 1.5rem;
   letter-spacing: 0.1rem;
   width: 90%;

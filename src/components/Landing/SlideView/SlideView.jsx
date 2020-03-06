@@ -1,11 +1,11 @@
-import React from "react";
-import styled from "styled-components";
-import Slider from "react-slick";
-import skiingImage from "../../../assets/images/skiing.jpg";
-import travelImage from "../../../assets/images/travel.jpg";
-import yogaImage from "../../../assets/images/yoga.jpg";
-import familyImage from "../../../assets/images/family.jpg";
-import hikingImage from "../../../assets/images/hiking.jpg";
+import React from 'react';
+import styled from 'styled-components';
+import Slider from 'react-slick';
+import skiingImage from '../../../assets/images/skiing.jpg';
+import travelImage from '../../../assets/images/travel.jpg';
+import yogaImage from '../../../assets/images/yoga.jpg';
+import familyImage from '../../../assets/images/family.jpg';
+import hikingImage from '../../../assets/images/hiking.jpg';
 
 const Wrapper = styled.div`
   width: 55%;

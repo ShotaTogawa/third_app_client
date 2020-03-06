@@ -1,11 +1,11 @@
-import React, { useState } from "react";
-import ImageCard from "./ImageCard";
-import Modal from "./Modal";
-import yoga from "../../../assets/images/yoga.jpg";
-import family from "../../../assets/images/family.jpg";
-import hiking from "../../../assets/images/hiking.jpg";
-import skiing from "../../../assets/images/skiing.jpg";
-import styled from "styled-components";
+import React, { useState } from 'react';
+import ImageCard from './ImageCard';
+import Modal from './Modal';
+import yoga from '../../../assets/images/yoga.jpg';
+import family from '../../../assets/images/family.jpg';
+import hiking from '../../../assets/images/hiking.jpg';
+import skiing from '../../../assets/images/skiing.jpg';
+import styled from 'styled-components';
 
 const images = [yoga, family, hiking, skiing];
 

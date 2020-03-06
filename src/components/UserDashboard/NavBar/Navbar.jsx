@@ -1,8 +1,8 @@
-import React from "react";
-import styled from "styled-components";
-import DrawerToggleButton from "./DrawerToggleButton";
-import { withRouter } from "react-router-dom";
-import { signout } from "../../Landing/Auth";
+import React from 'react';
+import styled from 'styled-components';
+import DrawerToggleButton from './DrawerToggleButton';
+import { withRouter } from 'react-router-dom';
+import { signout } from '../../Landing/Auth';
 
 const Navbar = ({ setSideDrawerOpen, history }) => {
   return (

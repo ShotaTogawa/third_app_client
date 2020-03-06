@@ -1,16 +1,16 @@
-import React, { useState, useEffect } from "react";
-import styled from "styled-components";
-import userImage from "../../../assets/images/user.svg";
-import UpdateProfileForm from "./UpdateProfileForm";
-import UserModal from "../UserModal";
-import { api } from "../../../api";
+import React, { useState, useEffect } from 'react';
+import styled from 'styled-components';
+import userImage from '../../../assets/images/user.svg';
+import UpdateProfileForm from './UpdateProfileForm';
+import UserModal from '../UserModal';
+import { api } from '../../../api';
 
 const Profile = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [currentUser, setCurrentUser] = useState(null);
 
   useEffect(() => {
-    api.get("/api/user").then(user => {
+    api.get('/api/user').then(user => {
       return setCurrentUser(user.data);
     });
   }, []);
@@ -54,7 +54,7 @@ const Profile = () => {
           </ProfileInfoBox>
         </>
       ) : (
-        ""
+        ''
       )}
     </ProfileWrapper>
   );
@@ -136,7 +136,7 @@ const UpdateButton = styled.button`
   border: 2px solid #fff;
   border-radius: 50px;
   outline: none;
-  font-family: "Roboto Condensed", sans-serif;
+  font-family: 'Roboto Condensed', sans-serif;
   font-size: 15px;
   letter-spacing: 1px;
   cursor: pointer;

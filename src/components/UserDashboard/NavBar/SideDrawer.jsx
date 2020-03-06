@@ -1,7 +1,7 @@
-import React from "react";
-import styled from "styled-components";
-import { withRouter } from "react-router-dom";
-import { signout } from "../../Landing/Auth";
+import React from 'react';
+import styled from 'styled-components';
+import { withRouter } from 'react-router-dom';
+import { signout } from '../../Landing/Auth';
 
 const SideDrawer = ({ show, history }) => {
   return (

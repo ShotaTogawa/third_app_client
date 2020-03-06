@@ -1,17 +1,12 @@
-import React, { useState } from "react";
-import styled from "styled-components";
-import Spinner from "../../Common/Spinner";
-import { api } from "../../../api";
-import { ErrorMessage } from "../../Common/ErrorMessage";
-import { withRouter } from "react-router-dom";
-import { isAuthenticated, setAuthToken } from "../../Landing/Auth";
+import React, { useState } from 'react';
+import styled from 'styled-components';
+import Spinner from '../../Common/Spinner';
+import { api } from '../../../api';
+import { ErrorMessage } from '../../Common/ErrorMessage';
+import { withRouter } from 'react-router-dom';
+import { isAuthenticated, setAuthToken } from '../../Landing/Auth';
 
-const UpdateProfileForm = ({
-  history,
-  currentUser,
-  setIsOpen,
-  setCurrentUser
-}) => {
+const UpdateProfileForm = ({ currentUser, setIsOpen, setCurrentUser }) => {
   const { accessToken } = isAuthenticated();
   const [values, setValues] = useState({
     name: currentUser.name,
@@ -23,7 +18,7 @@ const UpdateProfileForm = ({
   const [file, setFile] = useState(null);
 
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
+  const [error, setError] = useState('');
 
   const { name, email, introduction } = values;
 
@@ -32,23 +27,23 @@ const UpdateProfileForm = ({
   };
 
   const handleChange = name => event => {
-    setError("");
+    setError('');
     setValues({ ...values, [name]: event.target.value });
   };
 
   const putImageToBucket = async uploadConfig => {
-    await delete api.defaults.headers.common["Authorization"];
-    setValues({ ...values, ["photoUrl"]: uploadConfig.data.key });
+    await delete api.defaults.headers.common['Authorization'];
+    setValues({ ...values, ['photoUrl']: uploadConfig.data.key });
     await api.put(uploadConfig.data.url, file, {
       headers: {
-        "Content-Type": file.type
+        'Content-Type': file.type
       }
     });
   };
 
   const updateProfilePicture = async () => {
     try {
-      let uploadConfig = await api.get("/api/upload");
+      let uploadConfig = await api.get('/api/upload');
       await putImageToBucket(uploadConfig);
     } catch (e) {
       console.log(e);
@@ -57,7 +52,7 @@ const UpdateProfileForm = ({
 
   const updateProfile = async formValue => {
     try {
-      const response = await api.patch("/api/user/edit", formValue);
+      const response = await api.patch('/api/user/edit', formValue);
       setCurrentUser(response.data);
     } catch (e) {
       console.log(e);
@@ -85,24 +80,24 @@ const UpdateProfileForm = ({
   };
   return (
     <>
-      {loading ? <Spinner /> : ""}
+      {loading ? <Spinner /> : ''}
       <H2>Edit Profile</H2>
       <Form onSubmit={handleSubmit}>
         <Input
           type="text"
           placeholder="NAME"
           value={name}
-          onChange={handleChange("name")}
+          onChange={handleChange('name')}
         />
         <Input
           type="email"
           placeholder="EMAIL ADDRESS"
           value={email}
-          onChange={handleChange("email")}
+          onChange={handleChange('email')}
         />
         <TextArea
           placeholder="INTRODUCTION YOURSELF"
-          onChange={handleChange("introduction")}
+          onChange={handleChange('introduction')}
           value={introduction}
         ></TextArea>
         <Label>
@@ -110,7 +105,7 @@ const UpdateProfileForm = ({
           <FileInput type="file" accept="image/*" onChange={onFileChange} />
         </Label>
         <UpdateButton type="submit">Update</UpdateButton>
-        {error ? <ErrorMessage>{error}</ErrorMessage> : ""}
+        {error ? <ErrorMessage>{error}</ErrorMessage> : ''}
       </Form>
     </>
   );
@@ -134,7 +129,7 @@ const Form = styled.form`
 const Input = styled.input`
   width: 60%;
   margin-right: 1rem;
-  font-family: "Oswald", sans-serif;
+  font-family: 'Oswald', sans-serif;
   font-size: 2rem;
   letter-spacing: 1px;
   color: #eee;
@@ -161,7 +156,7 @@ const UpdateButton = styled.button`
   border: 2px solid #fff;
   border-radius: 50px;
   outline: none;
-  font-family: "Roboto Condensed", sans-serif;
+  font-family: 'Roboto Condensed', sans-serif;
   font-size: 15px;
   letter-spacing: 1px;
   text-transform: uppercase;
@@ -199,7 +194,7 @@ const FileInput = styled.input`
   // display: none;
   width: 100%;
   margin-right: 1rem;
-  font-family: "Oswald", sans-serif;
+  font-family: 'Oswald', sans-serif;
   font-size: 2rem;
   color: #eee;
   font-weight: bold;
