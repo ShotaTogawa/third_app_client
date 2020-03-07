@@ -11,8 +11,7 @@ const UpdateProfileForm = ({ currentUser, setIsOpen, setCurrentUser }) => {
   const [values, setValues] = useState({
     name: currentUser.name,
     email: currentUser.email,
-    introduction: currentUser.introduction,
-    photoUrl: currentUser.image
+    introduction: currentUser.introduction
   });
 
   const [file, setFile] = useState(null);
@@ -33,36 +32,36 @@ const UpdateProfileForm = ({ currentUser, setIsOpen, setCurrentUser }) => {
 
   const putImageToBucket = async uploadConfig => {
     await delete api.defaults.headers.common['Authorization'];
-    console.log(
-      'stateにsetする前' + values.photoUrl,
-      'stateにsetしたい値' + uploadConfig.data.key
-    );
-    setValues({ ...values, ['photoUrl']: uploadConfig.data.key });
-    console.log(
-      'stateにsetした後' + values.photoUrl,
-      'stateにsetしたい値' + uploadConfig.data.key
-    );
-    await api.put(uploadConfig.data.url, file, {
-      headers: {
-        'Content-Type': file.type
-      }
-    });
-  };
-
-  const updateProfilePicture = async () => {
     try {
-      let uploadConfig = await api.get('/api/upload/avatar');
-      console.log('Values from S3 ', uploadConfig.data);
-      await putImageToBucket(uploadConfig);
+      await api.put(uploadConfig.data.url, file, {
+        headers: {
+          'Content-Type': file.type
+        }
+      });
     } catch (e) {
       console.log(e);
     }
   };
 
-  const updateProfile = async formValue => {
+  const updateProfileWithPicture = async () => {
     try {
-      const response = await api.patch('/api/user/edit', formValue);
-      console.log(response.data.image);
+      let uploadConfig = await api.get('/api/upload/avatar');
+      await putImageToBucket(uploadConfig);
+      setAuthToken(accessToken);
+      await api.patch('/api/user/edit', {
+        ...values,
+        image: uploadConfig.data.key
+      });
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const updateProfile = async () => {
+    try {
+      const response = await api.patch('/api/user/edit', {
+        ...values
+      });
       setCurrentUser(response.data);
     } catch (e) {
       console.log(e);
@@ -74,12 +73,10 @@ const UpdateProfileForm = ({ currentUser, setIsOpen, setCurrentUser }) => {
     try {
       setLoading(true);
       if (file) {
-        await updateProfilePicture();
+        await updateProfileWithPicture();
+      } else {
+        await updateProfile();
       }
-      if (accessToken) {
-        await setAuthToken(accessToken);
-      }
-      await updateProfile(values);
       setLoading(false);
       setIsOpen(false);
       // history.push('/user')
