@@ -33,7 +33,15 @@ const UpdateProfileForm = ({ currentUser, setIsOpen, setCurrentUser }) => {
 
   const putImageToBucket = async uploadConfig => {
     await delete api.defaults.headers.common['Authorization'];
+    console.log(
+      'stateにsetする前' + values.photoUrl,
+      'stateにsetしたい値' + uploadConfig.data.key
+    );
     setValues({ ...values, ['photoUrl']: uploadConfig.data.key });
+    console.log(
+      'stateにsetした後' + values.photoUrl,
+      'stateにsetしたい値' + uploadConfig.data.key
+    );
     await api.put(uploadConfig.data.url, file, {
       headers: {
         'Content-Type': file.type
@@ -44,6 +52,7 @@ const UpdateProfileForm = ({ currentUser, setIsOpen, setCurrentUser }) => {
   const updateProfilePicture = async () => {
     try {
       let uploadConfig = await api.get('/api/upload');
+      console.log('Values from S3 ', uploadConfig.data);
       await putImageToBucket(uploadConfig);
     } catch (e) {
       console.log(e);
@@ -53,6 +62,7 @@ const UpdateProfileForm = ({ currentUser, setIsOpen, setCurrentUser }) => {
   const updateProfile = async formValue => {
     try {
       const response = await api.patch('/api/user/edit', formValue);
+      console.log(response.data.image);
       setCurrentUser(response.data);
     } catch (e) {
       console.log(e);
