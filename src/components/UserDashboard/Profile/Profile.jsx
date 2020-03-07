@@ -71,7 +71,7 @@ const ProfileWrapper = styled.div`
   flex-wrap: wrap;
   width: 70rem;
   height: 20rem;
-  margin: 0 auto;
+  margin: 3rem auto 0 auto;
   padding-top: 5rem;
 `;
 

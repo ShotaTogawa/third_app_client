@@ -10,7 +10,6 @@ const redirectUser = () => {
   if (!accessToken) return <Redirect to="/" />;
 };
 
-console.log(accessToken);
 const App = () => {
   return (
     <>

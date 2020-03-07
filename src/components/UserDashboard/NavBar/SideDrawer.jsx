@@ -47,7 +47,7 @@ const Nav = styled.nav`
     cursor: pointer;
     &:hover,
     &:active {
-      color: rgba(109, 213, 250, 0.5);
+      color: #009aff;
     }
   }
   @media (min-width: 760px) {
