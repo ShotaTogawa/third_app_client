@@ -51,7 +51,7 @@ const UpdateProfileForm = ({ currentUser, setIsOpen, setCurrentUser }) => {
 
   const updateProfilePicture = async () => {
     try {
-      let uploadConfig = await api.get('/api/upload');
+      let uploadConfig = await api.get('/api/upload/avatar');
       console.log('Values from S3 ', uploadConfig.data);
       await putImageToBucket(uploadConfig);
     } catch (e) {

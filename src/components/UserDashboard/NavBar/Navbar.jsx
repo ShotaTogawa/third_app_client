@@ -19,22 +19,22 @@ const Navbar = ({ setSideDrawerOpen, history }) => {
           <ul>
             <Li>
               <Link to="/user" style={LinkStyle}>
-                <i class="fas fa-home"></i>
+                <i className="fas fa-home"></i>
               </Link>
             </Li>
             <Li>
               <Link to="/create" style={LinkStyle}>
-                <i class="fas fa-plus"></i>
+                <i className="fas fa-plus"></i>
               </Link>
             </Li>
             <Li>
               <Link to="/feed" style={LinkStyle}>
-                <i class="fas fa-stream"></i>
+                <i className="fas fa-stream"></i>
               </Link>
             </Li>
             <Li>
               <Link to="/search" style={LinkStyle}>
-                <i class="fas fa-search-plus"></i>
+                <i className="fas fa-search-plus"></i>
               </Link>
             </Li>
             <Li onClick={() => signout(history)}>Logout</Li>
