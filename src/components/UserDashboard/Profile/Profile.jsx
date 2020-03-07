@@ -4,12 +4,15 @@ import userImage from '../../../assets/images/user.svg';
 import UpdateProfileForm from './UpdateProfileForm';
 import UserModal from '../UserModal';
 import { api } from '../../../api';
+import { isAuthenticated, setAuthToken } from '../../Landing/Auth';
 
 const Profile = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [currentUser, setCurrentUser] = useState(null);
+  const { accessToken } = isAuthenticated();
 
   useEffect(() => {
+    setAuthToken(accessToken);
     api.get('/api/user').then(user => {
       return setCurrentUser(user.data);
     });
