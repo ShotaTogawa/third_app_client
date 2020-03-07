@@ -16,7 +16,9 @@ const Navbar = ({ setSideDrawerOpen, history }) => {
         <NavigationItems>
           <ul>
             <li>Home</li>
+            <li>Feed</li>
             <li>Post</li>
+            <li>Search</li>
             <li onClick={() => signout(history)}>Signuout</li>
           </ul>
         </NavigationItems>

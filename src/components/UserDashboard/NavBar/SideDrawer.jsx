@@ -8,7 +8,9 @@ const SideDrawer = ({ show, history }) => {
     <Nav open={show}>
       <ul>
         <li>Home</li>
+        <li>Feed</li>
         <li>Post</li>
+        <li>Search</li>
         <li onClick={() => signout(history)}>Signout</li>
       </ul>
     </Nav>
