@@ -7,11 +7,15 @@ import Spinner from '../../Common/Spinner';
 
 const Image = () => {
   const [popupImage, setPopupImage] = useState(false);
+  const [limit, setLimit] = useState(12);
+  const [offset, setOffset] = useState(0);
   const [myPhotos, setMyPhotos] = useState(null);
 
   useEffect(() => {
     const fetchImageData = async () => {
-      const response = await api.get('/api/my-photos/?limit=10&offset=0');
+      const response = await api.get(
+        `/api/my-photos/?limit=${limit}&offset=${offset}`
+      );
       setMyPhotos(response.data);
     };
     fetchImageData();
