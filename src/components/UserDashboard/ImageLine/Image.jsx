@@ -21,7 +21,7 @@ const Image = () => {
       {!myPhotos ? (
         <Spinner />
       ) : myPhotos && typeof myPhotos === 'string' ? (
-        <p>{myPhotos}</p>
+        <P>{myPhotos}</P>
       ) : (
         myPhotos.map(image => (
           <Fragment key={image.id}>
@@ -75,4 +75,8 @@ const ImageBox = styled.img`
     opacity: 1;
   }
   margin-bottom: 2rem;
+`;
+
+const P = styled.p`
+  font-size: 2rem;
 `;
