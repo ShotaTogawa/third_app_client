@@ -1,14 +1,16 @@
-import React from "react";
-import styled from "styled-components";
-import { withRouter } from "react-router-dom";
-import { signout } from "../../Landing/Auth";
+import React from 'react';
+import styled from 'styled-components';
+import { withRouter } from 'react-router-dom';
+import { signout } from '../../Landing/Auth';
 
 const SideDrawer = ({ show, history }) => {
   return (
     <Nav open={show}>
       <ul>
         <li>Home</li>
+        <li>Feed</li>
         <li>Post</li>
+        <li>Search</li>
         <li onClick={() => signout(history)}>Signout</li>
       </ul>
     </Nav>
@@ -45,7 +47,7 @@ const Nav = styled.nav`
     cursor: pointer;
     &:hover,
     &:active {
-      color: rgba(109, 213, 250, 0.5);
+      color: #009aff;
     }
   }
   @media (min-width: 760px) {

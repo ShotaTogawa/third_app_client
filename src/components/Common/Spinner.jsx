@@ -1,6 +1,6 @@
-import React from "react";
-import "./spinner.css";
-import styled from "styled-components";
+import React from 'react';
+import './spinner.css';
+import styled from 'styled-components';
 
 const Spinner = () => {
   return (
@@ -44,7 +44,7 @@ const LdsSpinner = styled.div`
     animation: lds-spinner 1.2s linear infinite;
   }
   & div:after {
-    content: " ";
+    content: ' ';
     display: block;
     position: absolute;
     top: 3px;

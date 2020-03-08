@@ -1,10 +1,12 @@
-import React from "react";
-import styled from "styled-components";
-import DrawerToggleButton from "./DrawerToggleButton";
-import { withRouter } from "react-router-dom";
-import { signout } from "../../Landing/Auth";
+import React from 'react';
+import styled from 'styled-components';
+import DrawerToggleButton from './DrawerToggleButton';
+import { withRouter } from 'react-router-dom';
+import { signout } from '../../Landing/Auth';
+import { Link } from 'react-router-dom';
 
 const Navbar = ({ setSideDrawerOpen, history }) => {
+  const LinkStyle = { color: 'inherit', textDecoration: 'inherit' };
   return (
     <Header>
       <Nav>
@@ -15,9 +17,27 @@ const Navbar = ({ setSideDrawerOpen, history }) => {
         <Spacer></Spacer>
         <NavigationItems>
           <ul>
-            <li>Home</li>
-            <li>Post</li>
-            <li onClick={() => signout(history)}>Signuout</li>
+            <Li>
+              <Link to="/user" style={LinkStyle}>
+                <i className="fas fa-home"></i>
+              </Link>
+            </Li>
+            <Li>
+              <Link to="/create" style={LinkStyle}>
+                <i className="fas fa-plus"></i>
+              </Link>
+            </Li>
+            <Li>
+              <Link to="/feed" style={LinkStyle}>
+                <i className="fas fa-stream"></i>
+              </Link>
+            </Li>
+            <Li>
+              <Link to="/search" style={LinkStyle}>
+                <i className="fas fa-search-plus"></i>
+              </Link>
+            </Li>
+            <Li onClick={() => signout(history)}>Logout</Li>
           </ul>
         </NavigationItems>
       </Nav>
@@ -33,6 +53,7 @@ const Header = styled.header`
   top: 0;
   left: 0;
   height: 6rem;
+  margin-bottom: 3rem;
 `;
 
 const Nav = styled.nav`
@@ -72,5 +93,15 @@ const NavigationItems = styled.div`
   }
   @media (max-width: 768px) {
     display: none;
+  }
+`;
+
+const Li = styled.li`
+  cursor: pointer;
+  font-weight: bold;
+  text-decoration: none;
+  &:hover,
+  &:active {
+    color: #009aff;
   }
 `;

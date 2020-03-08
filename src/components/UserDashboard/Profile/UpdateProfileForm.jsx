@@ -1,24 +1,23 @@
-import React, { useState } from "react";
-import styled from "styled-components";
-import Spinner from "../../Common/Spinner";
-import { api } from "../../../api";
-import { ErrorMessage } from "../../Common/ErrorMessage";
-import { withRouter } from "react-router-dom";
-import { isAuthenticated, setAuthToken } from "../../Landing/Auth";
+import React, { useState } from 'react';
+import styled from 'styled-components';
+import Spinner from '../../Common/Spinner';
+import { api } from '../../../api';
+import { ErrorMessage } from '../../Common/ErrorMessage';
+import { withRouter } from 'react-router-dom';
+import { isAuthenticated, setAuthToken } from '../../Landing/Auth';
 
-const UpdateProfileForm = ({ history }) => {
+const UpdateProfileForm = ({ currentUser, setIsOpen, setCurrentUser }) => {
   const { accessToken } = isAuthenticated();
   const [values, setValues] = useState({
-    name: "",
-    email: "",
-    introduction: "",
-    imageUrl: ""
+    name: currentUser.name,
+    email: currentUser.email,
+    introduction: currentUser.introduction
   });
 
   const [file, setFile] = useState(null);
 
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
+  const [error, setError] = useState('');
 
   const { name, email, introduction } = values;
 
@@ -27,34 +26,44 @@ const UpdateProfileForm = ({ history }) => {
   };
 
   const handleChange = name => event => {
-    setError("");
+    setError('');
     setValues({ ...values, [name]: event.target.value });
   };
 
   const putImageToBucket = async uploadConfig => {
-    await delete api.defaults.headers.common["Authorization"];
-    console.log("file" + file);
-    console.log("upconfig" + uploadConfig.data.url);
-    await api.put(uploadConfig.data.url, file, {
-      headers: {
-        "Content-Type": file.type
-      }
-    });
-  };
-
-  const updateProfilePicture = async () => {
+    await delete api.defaults.headers.common['Authorization'];
     try {
-      const uploadConfig = await api.get("/api/upload");
-      setValues({ ...values, imageUrl: uploadConfig.data.key });
-      await putImageToBucket(uploadConfig);
+      await api.put(uploadConfig.data.url, file, {
+        headers: {
+          'Content-Type': file.type
+        }
+      });
     } catch (e) {
       console.log(e);
     }
   };
 
-  const updateProfile = async formValue => {
+  const updateProfileWithPicture = async () => {
     try {
-      await api.patch("/api/user/edit", formValue);
+      let uploadConfig = await api.get('/api/upload/avatar');
+      await putImageToBucket(uploadConfig);
+      setAuthToken(accessToken);
+      const response = await api.patch('/api/user/edit', {
+        ...values,
+        image: uploadConfig.data.key
+      });
+      setCurrentUser(response.data);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const updateProfile = async () => {
+    try {
+      const response = await api.patch('/api/user/edit', {
+        ...values
+      });
+      setCurrentUser(response.data);
     } catch (e) {
       console.log(e);
     }
@@ -65,14 +74,13 @@ const UpdateProfileForm = ({ history }) => {
     try {
       setLoading(true);
       if (file) {
-        await updateProfilePicture(file);
+        await updateProfileWithPicture();
+      } else {
+        await updateProfile();
       }
-      if (accessToken) {
-        await setAuthToken(accessToken);
-      }
-      await updateProfile(values);
       setLoading(false);
-      history.push("/user");
+      setIsOpen(false);
+      // history.push('/user')
     } catch (e) {
       // TODO error処置を書く
       setLoading(false);
@@ -80,24 +88,24 @@ const UpdateProfileForm = ({ history }) => {
   };
   return (
     <>
-      {loading ? <Spinner /> : ""}
+      {loading ? <Spinner /> : ''}
       <H2>Edit Profile</H2>
       <Form onSubmit={handleSubmit}>
         <Input
           type="text"
           placeholder="NAME"
           value={name}
-          onChange={handleChange("name")}
+          onChange={handleChange('name')}
         />
         <Input
           type="email"
           placeholder="EMAIL ADDRESS"
           value={email}
-          onChange={handleChange("email")}
+          onChange={handleChange('email')}
         />
         <TextArea
           placeholder="INTRODUCTION YOURSELF"
-          onChange={handleChange("introduction")}
+          onChange={handleChange('introduction')}
           value={introduction}
         ></TextArea>
         <Label>
@@ -105,7 +113,7 @@ const UpdateProfileForm = ({ history }) => {
           <FileInput type="file" accept="image/*" onChange={onFileChange} />
         </Label>
         <UpdateButton type="submit">Update</UpdateButton>
-        {error ? <ErrorMessage>{error}</ErrorMessage> : ""}
+        {error ? <ErrorMessage>{error}</ErrorMessage> : ''}
       </Form>
     </>
   );
@@ -129,7 +137,7 @@ const Form = styled.form`
 const Input = styled.input`
   width: 60%;
   margin-right: 1rem;
-  font-family: "Oswald", sans-serif;
+  font-family: 'Oswald', sans-serif;
   font-size: 2rem;
   letter-spacing: 1px;
   color: #eee;
@@ -156,7 +164,7 @@ const UpdateButton = styled.button`
   border: 2px solid #fff;
   border-radius: 50px;
   outline: none;
-  font-family: "Roboto Condensed", sans-serif;
+  font-family: 'Roboto Condensed', sans-serif;
   font-size: 15px;
   letter-spacing: 1px;
   text-transform: uppercase;
@@ -191,10 +199,10 @@ const Label = styled.label`
 `;
 
 const FileInput = styled.input`
-  display: none;
-  width: 45%;
+  // display: none;
+  width: 100%;
   margin-right: 1rem;
-  font-family: "Oswald", sans-serif;
+  font-family: 'Oswald', sans-serif;
   font-size: 2rem;
   color: #eee;
   font-weight: bold;

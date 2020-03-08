@@ -1,22 +1,22 @@
-import React, { useState } from "react";
-import styled from "styled-components";
-import { ErrorMessage } from "../../Common/ErrorMessage";
-import { setAuthToken } from ".";
-import { api } from "../../../api";
-import Spinner from "../../Common/Spinner";
-import { authenticate } from "../Auth";
-import { withRouter } from "react-router-dom";
+import React, { useState } from 'react';
+import styled from 'styled-components';
+import { ErrorMessage } from '../../Common/ErrorMessage';
+import { setAuthToken } from '.';
+import { api } from '../../../api';
+import Spinner from '../../Common/Spinner';
+import { authenticate } from '../Auth';
+import { withRouter } from 'react-router-dom';
 
 const Signup = ({ history }) => {
   const [values, setValues] = useState({
-    name: "",
-    email: "",
-    password: ""
+    name: '',
+    email: '',
+    password: ''
   });
 
-  const [confirmPassword, setConfirmPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
+  const [error, setError] = useState('');
 
   const { name, email, password } = values;
 
@@ -36,28 +36,28 @@ const Signup = ({ history }) => {
 
   const isFormValid = () => {
     if (isFormEmpty(values, confirmPassword)) {
-      setError("Please fill in all Fields");
+      setError('Please fill in all Fields');
       return false;
     }
     if (!checkPassword(values, confirmPassword)) {
-      setError("Password was wrong");
+      setError('Password was wrong');
     }
 
     return true;
   };
 
   const handleChange = name => event => {
-    setError("");
+    setError('');
     setValues({ ...values, [name]: event.target.value });
   };
 
   const signup = async formValue => {
     isFormValid();
     try {
-      const response = await api.post("/api/signup", formValue);
+      const response = await api.post('/api/signup', formValue);
       setAuthToken(response.data.token);
       authenticate(response.data);
-      history.push("/user");
+      history.push('/user');
     } catch (e) {
       console.log(e);
     }
@@ -71,26 +71,26 @@ const Signup = ({ history }) => {
   };
   return (
     <>
-      {loading ? <Spinner /> : ""}
+      {loading ? <Spinner /> : ''}
       <H2>Signup</H2>
       <Form onSubmit={handleSubmit}>
         <Input
           type="text"
           placeholder="NAME"
           value={name}
-          onChange={handleChange("name")}
+          onChange={handleChange('name')}
         />
         <Input
           type="email"
           placeholder="EMAIL ADDRESS"
           value={email}
-          onChange={handleChange("email")}
+          onChange={handleChange('email')}
         />
         <Input
           type="password"
           placeholder="PASSWORD"
           value={password}
-          onChange={handleChange("password")}
+          onChange={handleChange('password')}
         />
         <Input
           type="password"
@@ -99,7 +99,7 @@ const Signup = ({ history }) => {
           onChange={e => setConfirmPassword(e.target.value)}
         />
         <SigninButton type="submit">Sign Up Here</SigninButton>
-        {error ? <ErrorMessage>{error}</ErrorMessage> : ""}
+        {error ? <ErrorMessage>{error}</ErrorMessage> : ''}
       </Form>
     </>
   );
@@ -121,7 +121,7 @@ const Form = styled.form`
 
 const Input = styled.input`
   width: 350px;
-  font-family: "Oswald", sans-serif;
+  font-family: 'Oswald', sans-serif;
   font-size: 2rem;
   letter-spacing: 1px;
   color: #eee;
@@ -147,7 +147,7 @@ const SigninButton = styled.button`
   border: 2px solid #fff;
   border-radius: 50px;
   outline: none;
-  font-family: "Roboto Condensed", sans-serif;
+  font-family: 'Roboto Condensed', sans-serif;
   font-size: 15px;
   letter-spacing: 1px;
   text-transform: uppercase;

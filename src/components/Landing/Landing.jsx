@@ -1,16 +1,16 @@
-import React, { useState } from "react";
-import styled from "styled-components";
-import Slideview from "./SlideView/SlideView";
-import Login from "./Auth/Login";
-import Signup from "./Auth/Signup";
-import Modal from "./Auth/Modal";
+import React, { useState } from 'react';
+import styled from 'styled-components';
+import Slideview from './SlideView/SlideView';
+import Login from './Auth/Login';
+import Signup from './Auth/Signup';
+import Modal from './Auth/Modal';
 
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
 
 const Landing = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [form, setForm] = useState("");
+  const [form, setForm] = useState('');
 
   const openModal = form => {
     setIsOpen(true);
@@ -26,16 +26,16 @@ const Landing = () => {
           Share Your Moments
         </H2>
         <P>Join now!</P>
-        <SigninButton onClick={e => openModal("signin")}>Signin</SigninButton>
-        <SignupButton onClick={e => openModal("signup")}>Signup</SignupButton>
+        <SigninButton onClick={() => openModal('signin')}>Signin</SigninButton>
+        <SignupButton onClick={() => openModal('signup')}>Signup</SignupButton>
       </SideMenu>
       <Modal
         isOpen={isOpen}
-        onClose={e => {
+        onClose={() => {
           setIsOpen(false);
         }}
       >
-        {form && form === "signin" ? <Login /> : <Signup />}
+        {form && form === 'signin' ? <Login /> : <Signup />}
       </Modal>
     </Container>
   );
