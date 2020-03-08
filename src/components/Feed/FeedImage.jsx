@@ -1,8 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import yoga from '../../assets/images/yoga.jpg';
-import family from '../../assets/images/family.jpg';
-import hiking from '../../assets/images/hiking.jpg';
-import skiing from '../../assets/images/skiing.jpg';
 import styled from 'styled-components';
 import { api } from '../../api';
 import Spinner from '../Common/Spinner';
@@ -10,10 +6,10 @@ import Spinner from '../Common/Spinner';
 const Image = () => {
   const [images, setImages] = useState(null);
   useEffect(() => {
-    async function fetchData() {
+    const fetchData = async () => {
       const response = await api.get('/api/photos/?limit=10&offset=0');
-      setImages(response);
-    }
+      setImages(response.data);
+    };
     fetchData();
   }, []);
 
@@ -21,8 +17,8 @@ const Image = () => {
     <Wrapper>
       {!images ? (
         <Spinner />
-      ) : images.data.length > 0 ? (
-        images.data.map(image => (
+      ) : images.length > 0 ? (
+        images.map(image => (
           <ImageCard key={image.id}>
             <ImageBox
               image={

@@ -13,10 +13,13 @@ const Profile = () => {
 
   useEffect(() => {
     setAuthToken(accessToken);
-    api.get('/api/user').then(user => {
-      return setCurrentUser(user.data);
-    });
-  }, []);
+    const fetchUser = async () => {
+      await api.get('/api/user').then(user => {
+        setCurrentUser(user.data);
+      });
+    };
+    fetchUser();
+  }, [accessToken]);
 
   return (
     <ProfileWrapper>

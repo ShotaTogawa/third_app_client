@@ -1,30 +1,48 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, Fragment } from 'react';
 import ImageCard from './ImageCard';
 import Modal from './Modal';
-import yoga from '../../../assets/images/yoga.jpg';
-import family from '../../../assets/images/family.jpg';
-import hiking from '../../../assets/images/hiking.jpg';
-import skiing from '../../../assets/images/skiing.jpg';
 import styled from 'styled-components';
-
-const images = [yoga, family, hiking, skiing];
+import { api } from '../../../api';
+import Spinner from '../../Common/Spinner';
 
 const Image = () => {
   const [popupImage, setPopupImage] = useState(false);
+  const [myPhotos, setMyPhotos] = useState(null);
+
+  useEffect(() => {
+    const fetchImageData = async () => {
+      const response = await api.get('/api/my-photos/?limit=10&offset=0');
+      setMyPhotos(response.data);
+    };
+    fetchImageData();
+  }, []);
   return (
     <Wrapper>
-      {images.map(image => (
-        <ImageBox image={image} onClick={e => setPopupImage(true)} />
-      ))}
-
-      <Modal
-        popupImage={popupImage}
-        onClose={e => {
-          setPopupImage(false);
-        }}
-      >
-        <ImageCard />
-      </Modal>
+      {!myPhotos ? (
+        <Spinner />
+      ) : myPhotos && typeof myPhotos === 'string' ? (
+        <p>{myPhotos}</p>
+      ) : (
+        myPhotos.map(image => (
+          <Fragment key={image.id}>
+            <ImageBox
+              key={image.id}
+              image={
+                process.env.REACT_APP_S3_IMAGE_ACCESS_POINT + image.photo_url
+              }
+              onClick={e => setPopupImage(true)}
+            />
+            <Modal
+              popupImage={popupImage}
+              onClose={e => {
+                setPopupImage(false);
+              }}
+            >
+              <ImageCard myPhoto={image} />
+            </Modal>
+          </Fragment>
+        ))
+      )}
     </Wrapper>
   );
 };
