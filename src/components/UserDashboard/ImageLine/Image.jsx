@@ -46,11 +46,15 @@ const ImageBox = styled.img`
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
+  opacity: 0.8;
+  transition: transform 0.5s;
   &:hover {
+    transform: scale(1.05);
     background-color: linear-gradient(
       rgba(150, 124, 124, 0.1),
       rgba(17, 17, 17, 0.3)
     );
+    opacity: 1;
   }
   margin-bottom: 2rem;
 `;
