@@ -1,24 +1,43 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import yoga from '../../assets/images/yoga.jpg';
 import family from '../../assets/images/family.jpg';
 import hiking from '../../assets/images/hiking.jpg';
 import skiing from '../../assets/images/skiing.jpg';
 import styled from 'styled-components';
-
-const images = [yoga, family, hiking, skiing];
+import { api } from '../../api';
+import Spinner from '../Common/Spinner';
 
 const Image = () => {
+  const [images, setImages] = useState(null);
+  useEffect(() => {
+    async function fetchData() {
+      const response = await api.get('/api/photos/?limit=10&offset=0');
+      setImages(response);
+    }
+    fetchData();
+  }, []);
+
   return (
     <Wrapper>
-      {images.map(image => (
-        <ImageCard>
-          <ImageBox image={image} />
-          <ImageInfoBox>
-            <Heart className="fas fa-heart"></Heart>
-            <Name>Name</Name>
-          </ImageInfoBox>
-        </ImageCard>
-      ))}
+      {!images ? (
+        <Spinner />
+      ) : images.data.length > 0 ? (
+        images.data.map(image => (
+          <ImageCard key={image.id}>
+            <ImageBox
+              image={
+                process.env.REACT_APP_S3_IMAGE_ACCESS_POINT + image.photo_url
+              }
+            />
+            <ImageInfoBox>
+              <Heart className="fas fa-heart"></Heart>
+              <Name>Name</Name>
+            </ImageInfoBox>
+          </ImageCard>
+        ))
+      ) : (
+        <P>You have not posted photos yet</P>
+      )}
     </Wrapper>
   );
 };
@@ -40,7 +59,7 @@ const ImageCard = styled.div`
   margin: 1rem;
   transition: transform 0.5s;
   &:hover {
-    transform: scale(1.05);
+    transform: scale(1.03);
     background-color: linear-gradient(
       rgba(150, 124, 124, 0.1),
       rgba(17, 17, 17, 0.3)
@@ -89,4 +108,9 @@ const Name = styled.p`
   font-weight: bold;
   color: #fff;
   margin-right: 1.5rem;
+`;
+
+const P = styled.p`
+  font-size: 2rem;
+  margin-top: 10rem;
 `;
