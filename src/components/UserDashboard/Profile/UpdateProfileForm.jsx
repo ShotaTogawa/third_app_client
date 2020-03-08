@@ -48,10 +48,11 @@ const UpdateProfileForm = ({ currentUser, setIsOpen, setCurrentUser }) => {
       let uploadConfig = await api.get('/api/upload/avatar');
       await putImageToBucket(uploadConfig);
       setAuthToken(accessToken);
-      await api.patch('/api/user/edit', {
+      const response = await api.patch('/api/user/edit', {
         ...values,
         image: uploadConfig.data.key
       });
+      setCurrentUser(response.data);
     } catch (e) {
       console.log(e);
     }
