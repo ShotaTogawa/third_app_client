@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { api } from '../../api';
 import Spinner from '../Common/Spinner';
+import userImage from '../../assets/images/user.svg';
 
 const Image = () => {
   const [images, setImages] = useState(null);
@@ -34,12 +35,16 @@ const Image = () => {
             />
             <ImageInfoBox>
               <Heart className="fas fa-heart"></Heart>
-              <UserImage
-                image={
-                  process.env.REACT_APP_S3_AVATAR_ACCESS_POINT +
-                  image.User.image
-                }
-              />
+              {image.User.image ? (
+                <UserImage
+                  image={
+                    process.env.REACT_APP_S3_AVATAR_ACCESS_POINT +
+                    image.User.image
+                  }
+                />
+              ) : (
+                <DefaultUserImage src={userImage} />
+              )}
             </ImageInfoBox>
           </ImageCard>
         ))
@@ -121,9 +126,18 @@ const UserImage = styled.img`
   background-size: cover;
   border-radius: 50%;
   cursor: pointer;
+  border: 0.2rem solid rgba(109, 213, 250, 0.5);
 `;
 
 const P = styled.p`
   font-size: 2rem;
   margin-top: 10rem;
+`;
+
+const DefaultUserImage = styled.img`
+  width: 4rem;
+  height: 4rem;
+  margin: 0 1rem 1rem 0;
+  border-radius: 50%;
+  border: 0.2rem solid rgba(109, 213, 250, 0.5);
 `;
