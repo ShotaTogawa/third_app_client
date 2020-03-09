@@ -18,6 +18,8 @@ const Image = () => {
     fetchData();
   }, []);
 
+  console.log(images);
+
   return (
     <Wrapper>
       {!images ? (
@@ -32,7 +34,12 @@ const Image = () => {
             />
             <ImageInfoBox>
               <Heart className="fas fa-heart"></Heart>
-              <Name>Name</Name>
+              <UserImage
+                image={
+                  process.env.REACT_APP_S3_AVATAR_ACCESS_POINT +
+                  image.User.image
+                }
+              />
             </ImageInfoBox>
           </ImageCard>
         ))
@@ -104,11 +111,16 @@ const Heart = styled.i`
   }
 `;
 
-const Name = styled.p`
-  font-size: 2rem;
-  font-weight: bold;
-  color: #fff;
-  margin-right: 1.5rem;
+const UserImage = styled.img`
+  width: 4rem;
+  height: 4rem;
+  margin: 0 1rem 1rem 0;
+  background: url(${props => props.image});
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  border-radius: 50%;
+  cursor: pointer;
 `;
 
 const P = styled.p`
