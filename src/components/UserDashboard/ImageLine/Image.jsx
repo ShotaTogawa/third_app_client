@@ -20,6 +20,15 @@ const Image = () => {
     };
     fetchImageData();
   }, []);
+
+  const handleDelete = async image_id => {
+    await api.delete(`api/photo/${image_id}`);
+    const response = await api.get(
+      `/api/my-photos/?limit=${limit}&offset=${offset}`
+    );
+    setMyPhotos(response.data);
+    setPopupImage(false);
+  };
   return (
     <Wrapper>
       {!myPhotos ? (
@@ -34,15 +43,15 @@ const Image = () => {
               image={
                 process.env.REACT_APP_S3_IMAGE_ACCESS_POINT + image.photo_url
               }
-              onClick={e => setPopupImage(true)}
+              onClick={() => setPopupImage(true)}
             />
             <Modal
               popupImage={popupImage}
-              onClose={e => {
-                setPopupImage(false);
-              }}
+              onClose={() => setPopupImage(false)}
+              handleDelete={handleDelete}
+              image_id={image.id}
             >
-              <ImageCard myPhoto={image} />
+              <ImageCard modalInfo={image} />
             </Modal>
           </Fragment>
         ))

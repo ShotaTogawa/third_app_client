@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const Modal = ({ popupImage, children, onClose }) => {
+const Modal = ({ popupImage, children, onClose, image_id, handleDelete }) => {
   if (!popupImage) {
     return null;
   }
@@ -9,7 +9,20 @@ const Modal = ({ popupImage, children, onClose }) => {
   return (
     <ModalStyles>
       <div>{children}</div>
-      <Button onClick={onClose}>X</Button>
+      <BottomButtons>
+        <Button color={'#82C91F'}>
+          <Icon className="far fa-edit"></Icon>
+        </Button>
+        <Button color={'red'}>
+          <Icon
+            onClick={() => handleDelete(image_id)}
+            className="far fa-trash-alt"
+          ></Icon>
+        </Button>
+        <Button onClick={onClose} color={'#fff'}>
+          X
+        </Button>
+      </BottomButtons>
     </ModalStyles>
   );
 };
@@ -28,9 +41,15 @@ const ModalStyles = styled.div`
   flex-direction: column;
 `;
 
-const Button = styled.button`
+const BottomButtons = styled.div`
   margin: -3.5rem 1rem 0 0;
+  align-self: flex-end;
+`;
+
+const Button = styled.button`
+  margin: 0 0.5rem;
   padding: 1;
+  background-color: ${props => props.color};
   cursor: pointer;
   border-radius: 50%;
   border: none;
@@ -38,4 +57,9 @@ const Button = styled.button`
   height: 3rem;
   font-weight: bold;
   align-self: flex-end;
+`;
+
+const Icon = styled.i`
+  color: #fff;
+  font-weight: bold;
 `;
