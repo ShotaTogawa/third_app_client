@@ -20,8 +20,7 @@ const Image = () => {
     fetchData();
   }, []);
 
-  console.log(images);
-
+  
   return (
     <Wrapper>
       {!images ? (
