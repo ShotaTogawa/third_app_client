@@ -11,7 +11,6 @@ const OthersImages = ({ userId }) => {
   useEffect(() => {
     const fetchImageData = async () => {
       const response = await api.get(
-        // :userIdを取得
         `/api/photos/${userId}?limit=${limit}&offset=${offset}`
       );
       setPhotos(response.data);
