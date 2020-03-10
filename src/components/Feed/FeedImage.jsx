@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { api } from '../../api';
 import Spinner from '../Common/Spinner';
 import userImage from '../../assets/images/user.svg';
+import { Link } from 'react-router-dom';
 
 const Image = () => {
   const [images, setImages] = useState(null);
@@ -35,16 +36,18 @@ const Image = () => {
             />
             <ImageInfoBox>
               <Heart className="fas fa-heart"></Heart>
-              {image.User.image ? (
-                <UserImage
-                  image={
-                    process.env.REACT_APP_S3_AVATAR_ACCESS_POINT +
-                    image.User.image
-                  }
-                />
-              ) : (
-                <DefaultUserImage src={userImage} />
-              )}
+              <Link to={`/user/${image.user_id}`}>
+                {image.User.image ? (
+                  <UserImage
+                    image={
+                      process.env.REACT_APP_S3_AVATAR_ACCESS_POINT +
+                      image.User.image
+                    }
+                  />
+                ) : (
+                  <DefaultUserImage src={userImage} />
+                )}
+              </Link>
             </ImageInfoBox>
           </ImageCard>
         ))

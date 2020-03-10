@@ -7,6 +7,7 @@ import UserDashboard from './components/UserDashboard/UserDashboard';
 import Feed from './components/Feed/Feed';
 import SearchImage from './components/SearchImage/SearchImage';
 import CreateImage from './components/CreateImage/CreateImage';
+import OtherUserDashboard from './components/UserDashboard/OtherUserDashboard';
 
 const Router = () => {
   return (
@@ -17,6 +18,7 @@ const Router = () => {
         <PrivateRoute path="/feed" exact component={Feed} />
         <PrivateRoute path="/search" exact component={SearchImage} />
         <PrivateRoute path="/create" exact component={CreateImage} />
+        <PrivateRoute path="/user/:id" exact component={OtherUserDashboard} />
       </Switch>
     </BrowserRouter>
   );
