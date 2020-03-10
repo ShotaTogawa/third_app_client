@@ -16,7 +16,7 @@ const OtherUserProfile = ({ userId }) => {
       });
     };
     fetchUser();
-  }, [accessToken]);
+  }, [accessToken, userId]);
 
   return (
     <ProfileWrapper>

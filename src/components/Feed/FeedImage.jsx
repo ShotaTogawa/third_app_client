@@ -34,6 +34,7 @@ const Image = () => {
                 process.env.REACT_APP_S3_IMAGE_ACCESS_POINT + image.photo_url
               }
             />
+            <ImageDescription>{image.description}</ImageDescription>
             <ImageInfoBox>
               <Heart className="fas fa-heart"></Heart>
               <Link to={`/user/${image.user_id}`}>
@@ -91,6 +92,27 @@ const ImageBox = styled.img`
   background-repeat: no-repeat;
   background-size: cover;
   opacity: 0.8;
+  cursor: pointer;
+  &:hover {
+    opacity: 1;
+  }
+`;
+
+const ImageDescription = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 25rem;
+  height: 25rem;
+  padding: 1rem;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #fff;
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0.6);
+  top: 0;
+  left: 0;
+  opacity: 0;
   cursor: pointer;
   &:hover {
     opacity: 1;
