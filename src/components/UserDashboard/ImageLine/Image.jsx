@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Fragment } from 'react';
+import React, { useState, useEffect } from 'react';
 import ImageCard from './ImageCard';
 import Modal from './Modal';
 import styled from 'styled-components';
@@ -10,6 +10,7 @@ const Image = () => {
   const [limit, setLimit] = useState(12);
   const [offset, setOffset] = useState(0);
   const [myPhotos, setMyPhotos] = useState(null);
+  const [showImage, setShowImage] = useState([]);
 
   useEffect(() => {
     const fetchImageData = async () => {
@@ -29,6 +30,11 @@ const Image = () => {
     setMyPhotos(response.data);
     setPopupImage(false);
   };
+
+  const openModal = idx => {
+    setPopupImage(true);
+    setShowImage(myPhotos[idx]);
+  };
   return (
     <Wrapper>
       {!myPhotos ? (
@@ -36,25 +42,24 @@ const Image = () => {
       ) : myPhotos && typeof myPhotos === 'string' ? (
         <P>{myPhotos}</P>
       ) : (
-        myPhotos.map(image => (
-          <Fragment key={image.id}>
+        <>
+          {myPhotos.map((image, idx) => (
             <ImageBox
               key={image.id}
               image={
                 process.env.REACT_APP_S3_IMAGE_ACCESS_POINT + image.photo_url
               }
-              onClick={() => setPopupImage(true)}
+              onClick={() => openModal(idx)}
             />
-            <Modal
-              popupImage={popupImage}
-              onClose={() => setPopupImage(false)}
-              handleDelete={handleDelete}
-              image_id={image.id}
-            >
-              <ImageCard modalInfo={image} />
-            </Modal>
-          </Fragment>
-        ))
+          ))}
+          <Modal
+            popupImage={popupImage}
+            onClose={() => setPopupImage(false)}
+            handleDelete={() => handleDelete(showImage.id)}
+          >
+            <ImageCard modalInfo={showImage} />
+          </Modal>
+        </>
       )}
     </Wrapper>
   );
