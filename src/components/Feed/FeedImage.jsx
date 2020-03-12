@@ -4,6 +4,7 @@ import { api } from '../../api';
 import Spinner from '../Common/Spinner';
 import userImage from '../../assets/images/user.svg';
 import { Link } from 'react-router-dom';
+import Like from '../Like/Like';
 
 const Image = () => {
   const [images, setImages] = useState(null);
@@ -20,7 +21,6 @@ const Image = () => {
     fetchData();
   }, []);
 
-  
   return (
     <Wrapper>
       {!images ? (
@@ -35,7 +35,7 @@ const Image = () => {
             />
             <ImageDescription>{image.description}</ImageDescription>
             <ImageInfoBox>
-              <Heart className="fas fa-heart"></Heart>
+              <Like photoId={image.id} />
               <Link to={`/user/${image.user_id}`}>
                 {image.User.image ? (
                   <UserImage
