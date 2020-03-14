@@ -3,12 +3,12 @@ import styled from 'styled-components';
 import { api } from '../../../api';
 import Spinner from '../../Common/Spinner';
 import Comment from '../../Comment/Comment';
+import Like from '../../Like/Like';
 
 const OthersImages = ({ userId }) => {
   const [limit, setLimit] = useState(12);
   const [offset, setOffset] = useState(0);
   const [photos, setPhotos] = useState(null);
-  const [openComment, setOpenComment] = useState(false);
 
   useEffect(() => {
     const fetchImageData = async () => {
@@ -36,19 +36,14 @@ const OthersImages = ({ userId }) => {
             />
             <ImageDescription>
               <p>{image.description}</p>
-              {!openComment ? (
-                <CommentButton onClick={() => setOpenComment(true)}>
-                  comment
-                </CommentButton>
-              ) : (
-                ''
-              )}
             </ImageDescription>
-            {openComment ? (
-              <Comment image_id={image.id} setOpenComment={setOpenComment} />
-            ) : (
-              ''
-            )}
+            <ImageInfoBox>
+              <Like
+                likeCount={image.likeCount}
+                isLiked={image.isLiked}
+                photoId={image.id}
+              />
+            </ImageInfoBox>
           </ImageCard>
         ))
       )}
@@ -80,6 +75,18 @@ const ImageCard = styled.div`
       rgba(17, 17, 17, 0.3)
     );
   }
+`;
+
+const ImageInfoBox = styled.div`
+  position: absolute;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 25rem;
+  height: 4rem;
+  top: 25rem;
+  left: 0;
 `;
 
 const ImageBox = styled.img`
@@ -127,22 +134,4 @@ const ImageDescription = styled.div`
 
 const P = styled.p`
   font-size: 2rem;
-`;
-
-const CommentButton = styled.button`
-  width: 10rem;
-  height: 3rem;
-  font-size: 1.5rem;
-  padding: 0 1.5rem;
-  margin-top: 3rem;
-  cursor: pointer;
-  border-radius: 5rem;
-  background-color: #009aff;
-  color: #fff;
-  :hover {
-    background: linear-gradient(
-      rgba(41, 128, 185, 0.3),
-      rgba(109, 213, 250, 0.8)
-    );
-  }
 `;
