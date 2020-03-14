@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { api } from '../../../api';
 import Spinner from '../../Common/Spinner';
-import Comment from '../../Comment/Comment';
 import Like from '../../Like/Like';
 
 const OthersImages = ({ userId }) => {
