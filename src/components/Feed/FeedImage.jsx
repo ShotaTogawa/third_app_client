@@ -35,13 +35,16 @@ const Image = () => {
             />
             <ImageDescription>{image.description}</ImageDescription>
             <ImageInfoBox>
-              <Like photoId={image.id} />
+              <Like
+                likeCount={image.likeCount}
+                isLiked={image.isLiked}
+                photoId={image.id}
+              />
               <Link to={`/user/${image.user_id}`}>
-                {image.User.image ? (
+                {image.image ? (
                   <UserImage
                     image={
-                      process.env.REACT_APP_S3_AVATAR_ACCESS_POINT +
-                      image.User.image
+                      process.env.REACT_APP_S3_AVATAR_ACCESS_POINT + image.image
                     }
                   />
                 ) : (
@@ -128,16 +131,6 @@ const ImageInfoBox = styled.div`
   height: 4rem;
   top: 21rem;
   left: 0;
-`;
-
-const Heart = styled.i`
-  margin-left: 1.5rem;
-  font-size: 2rem;
-  color: #fff;
-  cursor: pointer;
-  &:hover {
-    color: red;
-  }
 `;
 
 const UserImage = styled.img`

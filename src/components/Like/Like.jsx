@@ -2,23 +2,10 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { api } from '../../api';
 
-const Like = ({ photoId }) => {
-  const [isLike, setIsLike] = useState(false);
-  const [countLike, setCountLike] = useState(0);
+const Like = ({ likeCount, isLiked, photoId }) => {
+  const [isLike, setIsLike] = useState(isLiked);
+  const [countLike, setCountLike] = useState(likeCount);
   const [isDisabled, setIsDisabled] = useState(false);
-  useEffect(() => {
-    const fetchLike = async () => {
-      const response = await api.get(`/api/like/${photoId}`);
-      setIsLike(response.data[0]);
-      if (response.data[1].length === 0) {
-        setCountLike(0);
-      } else {
-        const count = response.data[1][0];
-        setCountLike(count.likes);
-      }
-    };
-    fetchLike();
-  }, []);
 
   const like = async e => {
     e.preventDefault();
@@ -26,7 +13,7 @@ const Like = ({ photoId }) => {
     const response = await api.post(`/api/like/${photoId}`);
     setIsDisabled(false);
     setCountLike(response.data[0].likes);
-    setIsLike(true);
+    setIsLike(1);
   };
 
   const unlike = async e => {
@@ -38,12 +25,12 @@ const Like = ({ photoId }) => {
     } else {
       setCountLike(response.data[0].likes);
     }
-    setIsLike(false);
+    setIsLike(0);
     setIsDisabled(false);
   };
   return (
     <LikeWrapper>
-      {isLike ? (
+      {isLike === 1 ? (
         <Heart
           className="fas fa-heart"
           onClick={e => unlike(e)}
@@ -58,7 +45,7 @@ const Like = ({ photoId }) => {
           disabled={isDisabled}
         />
       )}
-      <Count>{countLike ? countLike : 0}</Count>
+      <Count>{countLike}</Count>
     </LikeWrapper>
   );
 };
