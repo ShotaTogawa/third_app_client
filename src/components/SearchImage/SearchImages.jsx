@@ -1,9 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import styled from 'styled-components';
-import { api } from '../../api';
-import Spinner from '../Common/Spinner';
 import Like from '../Like/Like';
-import SearchBar from './SearchBar';
 
 const SearchImages = ({ fetchResult }) => {
   return (

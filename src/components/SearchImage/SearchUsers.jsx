@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-import Like from '../Like/Like';
 import UserCard from './UserCard';
 
 const SearchImages = ({ fetchResult }) => {
