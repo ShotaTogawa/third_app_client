@@ -3,47 +3,32 @@ import styled from 'styled-components';
 import userImage from '../../../assets/images/user.svg';
 import UpdateProfileForm from './UpdateProfileForm';
 import UserModal from '../UserModal';
-import { api } from '../../../api';
-import { isAuthenticated, setAuthToken } from '../../Landing/Auth';
 
-const Profile = () => {
+const Profile = ({ user, follower, followee, setCurrentUser, posts }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [currentUser, setCurrentUser] = useState(null);
-  const { accessToken } = isAuthenticated();
-
-  useEffect(() => {
-    setAuthToken(accessToken);
-    const fetchUser = async () => {
-      await api.get('/api/user').then(user => {
-        setCurrentUser(user.data);
-      });
-    };
-    fetchUser();
-  }, [accessToken]);
 
   return (
     <ProfileWrapper>
-      {currentUser ? (
+      {user ? (
         <>
           <ProfileImageBox>
             <UserImage
               src={
-                currentUser.image
-                  ? process.env.REACT_APP_S3_AVATAR_ACCESS_POINT +
-                    currentUser.image
+                user.image
+                  ? process.env.REACT_APP_S3_AVATAR_ACCESS_POINT + user.image
                   : userImage
               }
             />
           </ProfileImageBox>
           <ProfileInfoBox>
             <Name>
-              <h2>{currentUser.name}</h2>
+              <h2>{user.name}</h2>
               <UpdateButton onClick={() => setIsOpen(true)}>
                 Edit User
               </UpdateButton>
               <UserModal isOpen={isOpen} onClose={() => setIsOpen(false)}>
                 <UpdateProfileForm
-                  currentUser={currentUser}
+                  currentUser={user}
                   setIsOpen={setIsOpen}
                   setCurrentUser={setCurrentUser}
                 />
@@ -51,12 +36,12 @@ const Profile = () => {
             </Name>
             <Counter>
               <UL>
-                <ListItem>Posts 10000</ListItem>
-                <ListItem>Follow 10000</ListItem>
-                <ListItem>Followers 10000</ListItem>
+                <ListItem>Posts {posts}</ListItem>
+                <ListItem>Follow {followee}</ListItem>
+                <ListItem>Followers {follower}</ListItem>
               </UL>
             </Counter>
-            <Introduction>{currentUser.introduction}</Introduction>
+            <Introduction>{user.introduction}</Introduction>
           </ProfileInfoBox>
         </>
       ) : (
