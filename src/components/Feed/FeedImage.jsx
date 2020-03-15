@@ -2,6 +2,9 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { api } from '../../api';
 import Spinner from '../Common/Spinner';
+import userImage from '../../assets/images/user.svg';
+import { Link } from 'react-router-dom';
+import Like from '../Like/Like';
 
 const Image = () => {
   const [images, setImages] = useState(null);
@@ -23,19 +26,39 @@ const Image = () => {
       {!images ? (
         <Spinner />
       ) : images.length > 0 ? (
-        images.map(image => (
-          <ImageCard key={image.id}>
-            <ImageBox
-              image={
-                process.env.REACT_APP_S3_IMAGE_ACCESS_POINT + image.photo_url
-              }
-            />
-            <ImageInfoBox>
-              <Heart className="fas fa-heart"></Heart>
-              <Name>Name</Name>
-            </ImageInfoBox>
-          </ImageCard>
-        ))
+        images.map(photo => {
+          const {
+            id,
+            photo_url,
+            description,
+            likeCount,
+            isLiked,
+            user_id,
+            image
+          } = photo;
+          return (
+            <ImageCard key={id}>
+              <ImageBox
+                image={process.env.REACT_APP_S3_IMAGE_ACCESS_POINT + photo_url}
+              />
+              <ImageDescription>{description}</ImageDescription>
+              <ImageInfoBox>
+                <Like likeCount={likeCount} isLiked={isLiked} photoId={id} />
+                <Link to={`/user/${user_id}`}>
+                  {image ? (
+                    <UserImage
+                      image={
+                        process.env.REACT_APP_S3_AVATAR_ACCESS_POINT + image
+                      }
+                    />
+                  ) : (
+                    <DefaultUserImage src={userImage} />
+                  )}
+                </Link>
+              </ImageInfoBox>
+            </ImageCard>
+          );
+        })
       ) : (
         <P>You have not posted photos yet</P>
       )}
@@ -82,6 +105,27 @@ const ImageBox = styled.img`
   }
 `;
 
+const ImageDescription = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 25rem;
+  height: 25rem;
+  padding: 1rem;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #fff;
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0.6);
+  top: 0;
+  left: 0;
+  opacity: 0;
+  cursor: pointer;
+  &:hover {
+    opacity: 1;
+  }
+`;
+
 const ImageInfoBox = styled.div`
   position: absolute;
   display: flex;
@@ -94,24 +138,28 @@ const ImageInfoBox = styled.div`
   left: 0;
 `;
 
-const Heart = styled.i`
-  margin-left: 1.5rem;
-  font-size: 2rem;
-  color: #fff;
+const UserImage = styled.img`
+  width: 4rem;
+  height: 4rem;
+  margin: 0 1rem 1rem 0;
+  background: url(${props => props.image});
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  border-radius: 50%;
   cursor: pointer;
-  &:hover {
-    color: red;
-  }
-`;
-
-const Name = styled.p`
-  font-size: 2rem;
-  font-weight: bold;
-  color: #fff;
-  margin-right: 1.5rem;
+  border: 0.2rem solid rgba(109, 213, 250, 0.5);
 `;
 
 const P = styled.p`
   font-size: 2rem;
   margin-top: 10rem;
+`;
+
+const DefaultUserImage = styled.img`
+  width: 4rem;
+  height: 4rem;
+  margin: 0 1rem 1rem 0;
+  border-radius: 50%;
+  border: 0.2rem solid rgba(109, 213, 250, 0.5);
 `;

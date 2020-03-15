@@ -1,23 +1,27 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const WorkCard = ({ myPhoto }) => {
+const ImageCard = ({ modalInfo }) => {
   return (
-    <Card>
+    <Card key={modalInfo.id}>
       <div>
         <Image
-          src={process.env.REACT_APP_S3_IMAGE_ACCESS_POINT + myPhoto.photo_url}
-          alt={myPhoto.description}
+          src={
+            process.env.REACT_APP_S3_IMAGE_ACCESS_POINT + modalInfo.photo_url
+          }
+          alt={modalInfo.description}
         />
       </div>
       <ImageDetail>
-        <AboutApp>{myPhoto.description}</AboutApp>
+        <AboutApp>
+          {modalInfo.description ? modalInfo.description : 'No description'}
+        </AboutApp>
       </ImageDetail>
     </Card>
   );
 };
 
-export default WorkCard;
+export default ImageCard;
 
 const Card = styled.div`
   width: 60rem;

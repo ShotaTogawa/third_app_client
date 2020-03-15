@@ -1,11 +1,27 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import userImage from '../../../assets/images/user.svg';
-import UpdateProfileForm from './UpdateProfileForm';
-import UserModal from '../UserModal';
+import { api } from '../../../api';
+import { isAuthenticated, setAuthToken } from '../../Landing/Auth';
 
-const Profile = ({ user, follower, followee, setCurrentUser, posts }) => {
-  const [isOpen, setIsOpen] = useState(false);
+const OtherUserProfile = ({ userId }) => {
+  const [user, setUser] = useState(null);
+  const { accessToken } = isAuthenticated();
+  const [followee, setFollowee] = useState(0);
+  const [follower, setFollower] = useState(0);
+  const [posts, setPosts] = useState(0);
+
+  useEffect(() => {
+    setAuthToken(accessToken);
+    const fetchUser = async () => {
+      const response = await api.get(`/api/user/${userId}`);
+      setUser(response.data[0]);
+      setPosts(response.data[0].Photos[0].posts);
+      setFollowee(response.data[1].followee.length);
+      setFollower(response.data[2].follower.length);
+    };
+    fetchUser();
+  }, [accessToken, userId]);
 
   return (
     <ProfileWrapper>
@@ -23,16 +39,6 @@ const Profile = ({ user, follower, followee, setCurrentUser, posts }) => {
           <ProfileInfoBox>
             <Name>
               <h2>{user.name}</h2>
-              <UpdateButton onClick={() => setIsOpen(true)}>
-                Edit User
-              </UpdateButton>
-              <UserModal isOpen={isOpen} onClose={() => setIsOpen(false)}>
-                <UpdateProfileForm
-                  currentUser={user}
-                  setIsOpen={setIsOpen}
-                  setCurrentUser={setCurrentUser}
-                />
-              </UserModal>
             </Name>
             <Counter>
               <UL>
@@ -51,7 +57,7 @@ const Profile = ({ user, follower, followee, setCurrentUser, posts }) => {
   );
 };
 
-export default Profile;
+export default OtherUserProfile;
 
 const ProfileWrapper = styled.div`
   display: flex;
@@ -115,26 +121,4 @@ const Introduction = styled.div`
   height: 10rem;
   font-size: 1.8rem;
   letter-spacing: 0.1rem;
-`;
-
-const UpdateButton = styled.button`
-  display: block;
-  width: 100px;
-  margin-left: 1rem;
-  padding: 3px 3px;
-  background-color: rgba(109, 213, 250, 0.8);
-  color: #fff;
-  border: 2px solid #fff;
-  border-radius: 50px;
-  outline: none;
-  font-family: 'Roboto Condensed', sans-serif;
-  font-size: 15px;
-  letter-spacing: 1px;
-  cursor: pointer;
-  :hover {
-    background: linear-gradient(
-      rgba(41, 128, 185, 0.3),
-      rgba(109, 213, 250, 0.8)
-    );
-  }
 `;
