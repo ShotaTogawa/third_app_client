@@ -8,9 +8,11 @@ const SearchBar = ({ setFetchResult, searchItem }) => {
     if (!searchValue) return '';
     if (searchValue && searchItem === 'photos') {
       const response = await api.get(`/api/photo-search/?term=${searchValue}`);
+      setSearchValue('');
       return setFetchResult(response.data);
     } else {
       const response = await api.get(`/api/user-search/?term=${searchValue}`);
+      setSearchValue('');
       return setFetchResult(response.data);
     }
   };
