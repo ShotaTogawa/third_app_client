@@ -3,24 +3,30 @@ import NavbarWrapper from '../UserDashboard/NavBar/NavbarWrapper';
 import SearchBar from './SearchBar';
 import styled from 'styled-components';
 import SearchImages from './SearchImages';
+import SearchUsers from './SearchUsers';
 
 const Search = () => {
   const [fetchResult, setFetchResult] = useState(null);
   const [searchItem, setSearchItem] = useState('user');
+
+  const prepSearch = target => {
+    setSearchItem(target);
+    setFetchResult(null);
+  };
   return (
     <NavbarWrapper>
       <Wrapper>
         <ButtonLine>
-          <Button onClick={() => setSearchItem('user')}>Search User</Button>
-          <Button onClick={() => setSearchItem('photos')}>Search Photo</Button>
+          <Button onClick={() => prepSearch('user')}>Search User</Button>
+          <Button onClick={() => prepSearch('photos')}>Search Photo</Button>
         </ButtonLine>
         <SearchBar setFetchResult={setFetchResult} searchItem={searchItem} />
         {!fetchResult ? (
-          <p>No result</p>
+          <P>No result</P>
         ) : fetchResult && searchItem === 'photos' ? (
           <SearchImages fetchResult={fetchResult} />
         ) : (
-          <p>user </p>
+          <SearchUsers fetchResult={fetchResult} />
         )}
       </Wrapper>
     </NavbarWrapper>
@@ -43,6 +49,11 @@ const ButtonLine = styled.div`
   flex-direction: row;
   justify-content: center;
   margin-bottom: 3rem;
+`;
+
+const P = styled.p`
+  text-align: center;
+  font-size: 2rem;
 `;
 
 const Button = styled.button`

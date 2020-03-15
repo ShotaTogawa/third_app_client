@@ -8,7 +8,10 @@ const SearchBar = ({ setFetchResult, searchItem }) => {
     if (!searchValue) return '';
     if (searchValue && searchItem === 'photos') {
       const response = await api.get(`/api/photo-search/?term=${searchValue}`);
-      setFetchResult(response.data);
+      return setFetchResult(response.data);
+    } else {
+      const response = await api.get(`/api/user-search/?term=${searchValue}`);
+      return setFetchResult(response.data);
     }
   };
 
@@ -31,7 +34,7 @@ export default SearchBar;
 
 const Wrapper = styled.div`
   background: rgba(0, 0, 0, 0.6);
-  margin: 0 auto;
+  margin: 0 auto 3rem auto;
   max-width: 50rem;
   width: 100%;
   padding: 1.5rem;
