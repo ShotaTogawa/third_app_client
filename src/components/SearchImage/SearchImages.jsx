@@ -1,32 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import styled from 'styled-components';
-import { api } from '../../../api';
-import Spinner from '../../Common/Spinner';
-import Like from '../../Like/Like';
+import Like from '../Like/Like';
 
-const OthersImages = ({ userId }) => {
-  const [limit, setLimit] = useState(12);
-  const [offset, setOffset] = useState(0);
-  const [photos, setPhotos] = useState(null);
-
-  useEffect(() => {
-    const fetchImageData = async () => {
-      const response = await api.get(
-        `/api/photos/${userId}?limit=${limit}&offset=${offset}`
-      );
-      setPhotos(response.data);
-    };
-    fetchImageData();
-  }, [userId]);
-
+const SearchImages = ({ fetchResult }) => {
   return (
     <Wrapper>
-      {!photos ? (
-        <Spinner />
-      ) : photos && typeof photos === 'string' ? (
-        <P>{photos}</P>
+      {fetchResult && typeof fetchResult === 'string' ? (
+        <P>{fetchResult}</P>
       ) : (
-        photos.map(image => {
+        fetchResult.map(image => {
           const { id, photo_url, description, likeCount, isLiked } = image;
           return (
             <ImageCard key={id}>
@@ -47,7 +29,7 @@ const OthersImages = ({ userId }) => {
   );
 };
 
-export default OthersImages;
+export default SearchImages;
 
 const Wrapper = styled.div`
   width: 100%;
