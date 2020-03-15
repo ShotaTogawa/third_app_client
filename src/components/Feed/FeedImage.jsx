@@ -26,34 +26,39 @@ const Image = () => {
       {!images ? (
         <Spinner />
       ) : images.length > 0 ? (
-        images.map(image => (
-          <ImageCard key={image.id}>
-            <ImageBox
-              image={
-                process.env.REACT_APP_S3_IMAGE_ACCESS_POINT + image.photo_url
-              }
-            />
-            <ImageDescription>{image.description}</ImageDescription>
-            <ImageInfoBox>
-              <Like
-                likeCount={image.likeCount}
-                isLiked={image.isLiked}
-                photoId={image.id}
+        images.map(photo => {
+          const {
+            id,
+            photo_url,
+            description,
+            likeCount,
+            isLiked,
+            user_id,
+            image
+          } = photo;
+          return (
+            <ImageCard key={id}>
+              <ImageBox
+                image={process.env.REACT_APP_S3_IMAGE_ACCESS_POINT + photo_url}
               />
-              <Link to={`/user/${image.user_id}`}>
-                {image.image ? (
-                  <UserImage
-                    image={
-                      process.env.REACT_APP_S3_AVATAR_ACCESS_POINT + image.image
-                    }
-                  />
-                ) : (
-                  <DefaultUserImage src={userImage} />
-                )}
-              </Link>
-            </ImageInfoBox>
-          </ImageCard>
-        ))
+              <ImageDescription>{description}</ImageDescription>
+              <ImageInfoBox>
+                <Like likeCount={likeCount} isLiked={isLiked} photoId={id} />
+                <Link to={`/user/${user_id}`}>
+                  {image ? (
+                    <UserImage
+                      image={
+                        process.env.REACT_APP_S3_AVATAR_ACCESS_POINT + image
+                      }
+                    />
+                  ) : (
+                    <DefaultUserImage src={userImage} />
+                  )}
+                </Link>
+              </ImageInfoBox>
+            </ImageCard>
+          );
+        })
       ) : (
         <P>You have not posted photos yet</P>
       )}

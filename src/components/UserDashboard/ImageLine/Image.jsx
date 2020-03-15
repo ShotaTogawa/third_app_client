@@ -44,19 +44,22 @@ const Image = () => {
         <P>{myPhotos}</P>
       ) : (
         <>
-          {myPhotos.map((image, idx) => (
-            <ImageCardWrapper key={image.id}>
-              <ImageBox
-                image={
-                  process.env.REACT_APP_S3_IMAGE_ACCESS_POINT + image.photo_url
-                }
-                onClick={() => openModal(idx)}
-              />
-              <ImageInfoBox>
-                <MyLike count={image.likeCount} />
-              </ImageInfoBox>
-            </ImageCardWrapper>
-          ))}
+          {myPhotos.map((image, idx) => {
+            const { id, photo_url, likeCount } = image;
+            return (
+              <ImageCardWrapper key={id}>
+                <ImageBox
+                  image={
+                    process.env.REACT_APP_S3_IMAGE_ACCESS_POINT + photo_url
+                  }
+                  onClick={() => openModal(idx)}
+                />
+                <ImageInfoBox>
+                  <MyLike count={likeCount} />
+                </ImageInfoBox>
+              </ImageCardWrapper>
+            );
+          })}
           <Modal
             popupImage={popupImage}
             onClose={() => setPopupImage(false)}
