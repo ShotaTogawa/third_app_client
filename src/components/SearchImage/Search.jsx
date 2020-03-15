@@ -71,8 +71,3 @@ const Button = styled.button`
     border-bottom: 0.5rem solid #a4dbf1;
   }
 `;
-
-const H2 = styled.h2`
-  text-align: center;
-  font-size: 3rem;
-`;

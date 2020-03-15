@@ -19,7 +19,7 @@ const SearchBar = ({ setFetchResult, searchItem }) => {
     <Wrapper>
       <Search
         type="text"
-        placeholder=""
+        placeholder={`Search ${searchItem}`}
         value={searchValue}
         onChange={e => setSearchValue(e.target.value)}
       />
