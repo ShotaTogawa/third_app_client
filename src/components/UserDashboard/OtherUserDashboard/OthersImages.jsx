@@ -26,25 +26,22 @@ const OthersImages = ({ userId }) => {
       ) : photos && typeof photos === 'string' ? (
         <P>{photos}</P>
       ) : (
-        photos.map(image => (
-          <ImageCard key={image.id}>
-            <ImageBox
-              image={
-                process.env.REACT_APP_S3_IMAGE_ACCESS_POINT + image.photo_url
-              }
-            />
-            <ImageDescription>
-              <p>{image.description}</p>
-            </ImageDescription>
-            <ImageInfoBox>
-              <Like
-                likeCount={image.likeCount}
-                isLiked={image.isLiked}
-                photoId={image.id}
+        photos.map(image => {
+          const { id, photo_url, description, likeCount, isLiked } = image;
+          return (
+            <ImageCard key={id}>
+              <ImageBox
+                image={process.env.REACT_APP_S3_IMAGE_ACCESS_POINT + photo_url}
               />
-            </ImageInfoBox>
-          </ImageCard>
-        ))
+              <ImageDescription>
+                <p>{description}</p>
+              </ImageDescription>
+              <ImageInfoBox>
+                <Like likeCount={likeCount} isLiked={isLiked} photoId={id} />
+              </ImageInfoBox>
+            </ImageCard>
+          );
+        })
       )}
     </Wrapper>
   );

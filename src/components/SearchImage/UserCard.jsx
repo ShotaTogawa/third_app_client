@@ -3,18 +3,19 @@ import styled from 'styled-components';
 import userImage from '../../assets/images/user.svg';
 
 const UserCard = ({ user }) => {
+  const { image, name, introduction } = user;
   return (
     <Card>
       <Back />
-      {user.image ? (
+      {image ? (
         <ProfileImage
-          src={process.env.REACT_APP_S3_AVATAR_ACCESS_POINT + user.image}
+          src={process.env.REACT_APP_S3_AVATAR_ACCESS_POINT + image}
         />
       ) : (
         <ProfileImage src={userImage} />
       )}
-      <H1>{user.name}</H1>
-      <AboutMe>{user.introduction}</AboutMe>
+      <H1>{name}</H1>
+      <AboutMe>{introduction}</AboutMe>
     </Card>
   );
 };
