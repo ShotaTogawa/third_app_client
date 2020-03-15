@@ -4,6 +4,7 @@ import { api } from '../../api';
 import Spinner from '../Common/Spinner';
 import userImage from '../../assets/images/user.svg';
 import { Link } from 'react-router-dom';
+import Like from '../Like/Like';
 
 const Image = () => {
   const [images, setImages] = useState(null);
@@ -20,37 +21,44 @@ const Image = () => {
     fetchData();
   }, []);
 
-  
   return (
     <Wrapper>
       {!images ? (
         <Spinner />
       ) : images.length > 0 ? (
-        images.map(image => (
-          <ImageCard key={image.id}>
-            <ImageBox
-              image={
-                process.env.REACT_APP_S3_IMAGE_ACCESS_POINT + image.photo_url
-              }
-            />
-            <ImageDescription>{image.description}</ImageDescription>
-            <ImageInfoBox>
-              <Heart className="fas fa-heart"></Heart>
-              <Link to={`/user/${image.user_id}`}>
-                {image.User.image ? (
-                  <UserImage
-                    image={
-                      process.env.REACT_APP_S3_AVATAR_ACCESS_POINT +
-                      image.User.image
-                    }
-                  />
-                ) : (
-                  <DefaultUserImage src={userImage} />
-                )}
-              </Link>
-            </ImageInfoBox>
-          </ImageCard>
-        ))
+        images.map(photo => {
+          const {
+            id,
+            photo_url,
+            description,
+            likeCount,
+            isLiked,
+            user_id,
+            image
+          } = photo;
+          return (
+            <ImageCard key={id}>
+              <ImageBox
+                image={process.env.REACT_APP_S3_IMAGE_ACCESS_POINT + photo_url}
+              />
+              <ImageDescription>{description}</ImageDescription>
+              <ImageInfoBox>
+                <Like likeCount={likeCount} isLiked={isLiked} photoId={id} />
+                <Link to={`/user/${user_id}`}>
+                  {image ? (
+                    <UserImage
+                      image={
+                        process.env.REACT_APP_S3_AVATAR_ACCESS_POINT + image
+                      }
+                    />
+                  ) : (
+                    <DefaultUserImage src={userImage} />
+                  )}
+                </Link>
+              </ImageInfoBox>
+            </ImageCard>
+          );
+        })
       ) : (
         <P>You have not posted photos yet</P>
       )}
@@ -128,16 +136,6 @@ const ImageInfoBox = styled.div`
   height: 4rem;
   top: 21rem;
   left: 0;
-`;
-
-const Heart = styled.i`
-  margin-left: 1.5rem;
-  font-size: 2rem;
-  color: #fff;
-  cursor: pointer;
-  &:hover {
-    color: red;
-  }
 `;
 
 const UserImage = styled.img`

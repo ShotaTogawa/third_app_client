@@ -7,13 +7,18 @@ import { isAuthenticated, setAuthToken } from '../../Landing/Auth';
 const OtherUserProfile = ({ userId }) => {
   const [user, setUser] = useState(null);
   const { accessToken } = isAuthenticated();
+  const [followee, setFollowee] = useState(0);
+  const [follower, setFollower] = useState(0);
+  const [posts, setPosts] = useState(0);
 
   useEffect(() => {
     setAuthToken(accessToken);
     const fetchUser = async () => {
-      await api.get(`/api/user/${userId}`).then(user => {
-        setUser(user.data);
-      });
+      const response = await api.get(`/api/user/${userId}`);
+      setUser(response.data[0]);
+      setPosts(response.data[0].Photos[0].posts);
+      setFollowee(response.data[1].followee.length);
+      setFollower(response.data[2].follower.length);
     };
     fetchUser();
   }, [accessToken, userId]);
@@ -37,9 +42,9 @@ const OtherUserProfile = ({ userId }) => {
             </Name>
             <Counter>
               <UL>
-                <ListItem>Posts 10000</ListItem>
-                <ListItem>Follow 10000</ListItem>
-                <ListItem>Followers 10000</ListItem>
+                <ListItem>Posts {posts}</ListItem>
+                <ListItem>Follow {followee}</ListItem>
+                <ListItem>Followers {follower}</ListItem>
               </UL>
             </Counter>
             <Introduction>{user.introduction}</Introduction>
