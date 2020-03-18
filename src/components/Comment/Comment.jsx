@@ -1,26 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import { api } from '../../api';
 import userImage from '../../assets/images/user.svg';
 import moment from 'moment';
 
-const Comment = ({ image_id, setOpenComment }) => {
-  const [comment, setComment] = useState('');
-  const [comments, setComments] = useState();
-  const [isLoading, setLoding] = useState(false);
-
-  useEffect(() => {
-    const fetchComment = async () => {
-      setLoding(true);
-      const response = await api.get(`/api/comment/${image_id}`);
-      setComments(response.data);
-      setLoding(false);
-    };
-    fetchComment();
-  }, [image_id]);
-
+const Comment = ({ id, comment, comments, setComment }) => {
   const handleSubmit = async e => {
-    await api.post(`/api/comment/${image_id}`, { comment });
+    await api.post(`/api/comment/${id}`, { comment });
   };
 
   const renderComments = comments => {
@@ -47,11 +33,8 @@ const Comment = ({ image_id, setOpenComment }) => {
     ));
   };
 
-  return isLoading ? (
-    ''
-  ) : (
-    <CommentBox key={image_id}>
-      <ul>{renderComments(comments)}</ul>
+  return (
+    <Wrapper>
       <Form onSubmit={e => handleSubmit(e)}>
         <TextArea
           placeholder="comment"
@@ -59,57 +42,56 @@ const Comment = ({ image_id, setOpenComment }) => {
           value={comment}
         ></TextArea>
         <ButtonLine>
-          <Button type="submit">Create</Button>
-          <CloseButton onClick={() => setOpenComment(false)}>X</CloseButton>
+          <Button type="submit">
+            <i className="fas fa-plus"></i>
+          </Button>
         </ButtonLine>
       </Form>
-    </CommentBox>
+      <UL>{renderComments(comments)}</UL>
+    </Wrapper>
   );
 };
 
 export default Comment;
 
-const CommentBox = styled.div`
-  position: fixed;
-  margin: -2.2rem 0 2rem 0;
-  width: 30rem;
-  background: linear-gradient(
-    rgba(41, 128, 185, 0.3),
-    rgba(109, 213, 250, 0.8)
-  );
+const Wrapper = styled.div`
+  margin-top: 1rem;
 `;
 
 const Form = styled.form`
-  padding: 1rem 2rem;
+  display: flex;
+  flex-direction: row;
+  padding-left: 1.5rem;
   box-sizing: border-box;
 `;
 
 const TextArea = styled.textarea`
   width: 100%;
-  height: 8rem;
+  height: 3rem;
   margin: 1rem 0;
+  padding: 0.2rem 0 0 0.5rem;
   background-color: transparent;
   font-size: 2rem;
   outline: none;
+  border-radius: 3rem;
   border: 0.05rem solid #9f9591;
   &::placeholder {
     color: #9f9591;
     fonst-size: 2rem;
-    padding: 1rem;
+    padding-left: 1rem;
   }
 `;
 
 const Button = styled.button`
-  width: 10rem;
-  padding: 6px 3px;
+  margin: 1rem 0 0 0.5rem;
+  width: 3rem;
+  height: 3rem;
   background-color: #009aff;
   color: #fff;
-  border-radius: 50px;
+  background: 1da1f2;
+  border-radius: 50%;
   outline: none;
   font-family: 'Roboto Condensed', sans-serif;
-  font-size: 12px;
-  letter-spacing: 1px;
-  text-transform: uppercase;
   cursor: pointer;
   :hover {
     background: linear-gradient(
@@ -117,6 +99,13 @@ const Button = styled.button`
       rgba(109, 213, 250, 0.8)
     );
   }
+`;
+
+const UL = styled.ul`
+  width: 90%;
+  height: 24.5rem;
+  margin: 0 auto;
+  overflow: auto;
 `;
 
 const CommentList = styled.li`
@@ -157,13 +146,4 @@ const ButtonLine = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-`;
-const CloseButton = styled.button`
-  background-color: #fff;
-  cursor: pointer;
-  border-radius: 50%;
-  border: none;
-  width: 3rem;
-  height: 3rem;
-  font-weight: bold;
 `;
