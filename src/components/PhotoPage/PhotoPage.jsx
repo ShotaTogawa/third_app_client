@@ -133,7 +133,8 @@ const UserImage = styled.img`
 `;
 
 const Name = styled.h2`
-  font-size: 4rem;
+  font-size: 3rem;
+  padding-top: 0.8rem;
 `;
 
 const Discription = styled.p`

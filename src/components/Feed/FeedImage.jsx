@@ -38,10 +38,16 @@ const Image = () => {
           } = photo;
           return (
             <ImageCard key={id}>
-              <ImageBox
-                image={process.env.REACT_APP_S3_IMAGE_ACCESS_POINT + photo_url}
-              />
-              <ImageDescription>{description}</ImageDescription>
+              <Link to={`/photo/${id}`}>
+                <ImageBox
+                  image={
+                    process.env.REACT_APP_S3_IMAGE_ACCESS_POINT + photo_url
+                  }
+                />
+                <ImageDescription>
+                  {description ? description : 'No description'}
+                </ImageDescription>
+              </Link>
               <ImageInfoBox>
                 <Like likeCount={likeCount} isLiked={isLiked} photoId={id} />
                 <Link to={`/user/${user_id}`}>

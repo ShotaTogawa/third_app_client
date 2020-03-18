@@ -1,22 +1,25 @@
 import React from 'react';
 import styled from 'styled-components';
 import userImage from '../../assets/images/user.svg';
+import { Link } from 'react-router-dom';
 
 const UserCard = ({ user }) => {
   const { image, name, introduction } = user;
   return (
-    <Card>
-      <Back />
-      {image ? (
-        <ProfileImage
-          src={process.env.REACT_APP_S3_AVATAR_ACCESS_POINT + image}
-        />
-      ) : (
-        <ProfileImage src={userImage} />
-      )}
-      <H1>{name}</H1>
-      <AboutMe>{introduction}</AboutMe>
-    </Card>
+    <Link to={`/user/${user.id}`} style={{ textDecoration: 'none' }}>
+      <Card>
+        <Back />
+        {image ? (
+          <ProfileImage
+            src={process.env.REACT_APP_S3_AVATAR_ACCESS_POINT + image}
+          />
+        ) : (
+          <ProfileImage src={userImage} />
+        )}
+        <H1>{name}</H1>
+        <AboutMe>{introduction}</AboutMe>
+      </Card>
+    </Link>
   );
 };
 

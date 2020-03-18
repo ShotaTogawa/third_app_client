@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { api } from '../../../api';
 import Spinner from '../../Common/Spinner';
 import Like from '../../Like/Like';
+import { Link } from 'react-router-dom';
 
 const OthersImages = ({ userId }) => {
   const [limit, setLimit] = useState(12);
@@ -30,15 +31,19 @@ const OthersImages = ({ userId }) => {
           const { id, photo_url, description, likeCount, isLiked } = image;
           return (
             <ImageCard key={id}>
-              <ImageBox
-                image={process.env.REACT_APP_S3_IMAGE_ACCESS_POINT + photo_url}
-              />
-              <ImageDescription>
-                <p>{description}</p>
-              </ImageDescription>
-              <ImageInfoBox>
-                <Like likeCount={likeCount} isLiked={isLiked} photoId={id} />
-              </ImageInfoBox>
+              <Link to={`/photo/${id}`}>
+                <ImageBox
+                  image={
+                    process.env.REACT_APP_S3_IMAGE_ACCESS_POINT + photo_url
+                  }
+                />
+                <ImageDescription>
+                  <p>{description}</p>
+                </ImageDescription>
+                <ImageInfoBox>
+                  <Like likeCount={likeCount} isLiked={isLiked} photoId={id} />
+                </ImageInfoBox>
+              </Link>
             </ImageCard>
           );
         })

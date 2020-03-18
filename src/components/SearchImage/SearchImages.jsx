@@ -1,6 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 import Like from '../Like/Like';
+import userImage from '../../assets/images/user.svg';
+import { Link } from 'react-router-dom';
 
 const SearchImages = ({ fetchResult }) => {
   return (
@@ -9,17 +11,42 @@ const SearchImages = ({ fetchResult }) => {
         <P>{fetchResult}</P>
       ) : (
         fetchResult.map(image => {
-          const { id, photo_url, description, likeCount, isLiked } = image;
+          const {
+            id,
+            photo_url,
+            description,
+            likeCount,
+            isLiked,
+            user_id,
+            User
+          } = image;
+          console.log(image);
           return (
             <ImageCard key={id}>
-              <ImageBox
-                image={process.env.REACT_APP_S3_IMAGE_ACCESS_POINT + photo_url}
-              />
-              <ImageDescription>
-                <p>{description}</p>
-              </ImageDescription>
+              <Link to={`/photo/${id}`}>
+                <ImageBox
+                  image={
+                    process.env.REACT_APP_S3_IMAGE_ACCESS_POINT + photo_url
+                  }
+                />
+                <ImageDescription>
+                  <p>{description}</p>
+                </ImageDescription>
+              </Link>
               <ImageInfoBox>
                 <Like likeCount={likeCount} isLiked={isLiked} photoId={id} />
+                <Link to={`/user/${user_id}`}>
+                  {User.image ? (
+                    <UserImage
+                      image={
+                        process.env.REACT_APP_S3_AVATAR_ACCESS_POINT +
+                        User.image
+                      }
+                    />
+                  ) : (
+                    <DefaultUserImage src={userImage} />
+                  )}
+                </Link>
               </ImageInfoBox>
             </ImageCard>
           );
@@ -61,7 +88,7 @@ const ImageInfoBox = styled.div`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  width: 25rem;
+  width: 30rem;
   height: 4rem;
   top: 25rem;
   left: 0;
@@ -108,6 +135,26 @@ const ImageDescription = styled.div`
   &:hover {
     opacity: 1;
   }
+`;
+const UserImage = styled.img`
+  width: 4rem;
+  height: 4rem;
+  background: url(${props => props.image});
+  margin-right: 1rem;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  border-radius: 50%;
+  cursor: pointer;
+  border: 0.2rem solid rgba(109, 213, 250, 0.5);
+`;
+
+const DefaultUserImage = styled.img`
+  width: 4rem;
+  height: 4rem;
+  margin-right: 1rem;
+  border-radius: 50%;
+  border: 0.2rem solid rgba(109, 213, 250, 0.5);
 `;
 
 const P = styled.p`
