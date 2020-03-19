@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { withRouter, Link } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import NavbarWrapper from '../UserDashboard/NavBar/NavbarWrapper';
 import Comment from '../Comment/Comment';
 import styled from 'styled-components';
@@ -32,7 +32,7 @@ const PhotoPage = ({ location }) => {
     };
     fetchPhotoData();
     fetchComment();
-  }, []);
+  }, [photoId]);
 
   const { id, photo_url, description } = photo;
   const { name, image } = user;

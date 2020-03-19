@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import OtherUserProfile from './OtherUserDashboard/OtherUserProfile';
 import OthersImages from './OtherUserDashboard/OthersImages';
 import NavbarWrapper from './NavBar/NavbarWrapper';
-import styled from 'styled-components';
 import { withRouter } from 'react-router-dom';
 import { api } from '../../api';
 import { setAuthorizedHeader } from '../../components/Landing/Auth';

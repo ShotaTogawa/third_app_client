@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Profile from './Profile/Profile';
 import NavbarWrapper from './NavBar/NavbarWrapper';
-import { setAuthToken, isAuthenticated } from '../Landing/Auth';
+import { setAuthorizedHeader } from '../Landing/Auth';
 import { api } from '../../api';
 import Image from './ImageLine/Image';
 
@@ -10,10 +10,9 @@ const UserDashboard = () => {
   const [followee, setFollowee] = useState(0);
   const [follower, setFollower] = useState(0);
   const [posts, setPosts] = useState(0);
-  const { accessToken } = isAuthenticated();
 
   useEffect(() => {
-    setAuthToken(accessToken);
+    setAuthorizedHeader();
     const fetchUser = async () => {
       const response = await api.get('/api/user');
       setCurrentUser(response.data[0]);
