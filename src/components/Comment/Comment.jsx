@@ -4,9 +4,9 @@ import { api } from '../../api';
 import userImage from '../../assets/images/user.svg';
 import moment from 'moment';
 
-const Comment = ({ id, comment, comments, setComment }) => {
-  const handleSubmit = async e => {
-    await api.post(`/api/comment/${id}`, { comment });
+const Comment = ({ id, reply, comments, setReply }) => {
+  const handleSubmit = async () => {
+    await api.post(`/api/comment/${id}`, { comment: reply });
   };
 
   const renderComments = comments => {
@@ -35,11 +35,11 @@ const Comment = ({ id, comment, comments, setComment }) => {
 
   return (
     <Wrapper>
-      <Form onSubmit={e => handleSubmit(e)}>
+      <Form onSubmit={handleSubmit}>
         <TextArea
           placeholder="comment"
-          onChange={e => setComment(e.target.value)}
-          value={comment}
+          onChange={e => setReply(e.target.value)}
+          value={reply}
         ></TextArea>
         <ButtonLine>
           <Button type="submit">

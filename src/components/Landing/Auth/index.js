@@ -24,3 +24,8 @@ export const signout = history => {
   localStorage.removeItem('jwt');
   history.push('/');
 };
+
+export const setAuthorizedHeader = () => {
+  const { accessToken } = isAuthenticated();
+  setAuthToken(accessToken);
+};

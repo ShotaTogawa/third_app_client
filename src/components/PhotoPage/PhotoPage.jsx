@@ -13,7 +13,7 @@ const PhotoPage = ({ location }) => {
   const [user, setUser] = useState(false);
   const [photo, setPhoto] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [comment, setComment] = useState('');
+  const [reply, setReply] = useState('');
   const [comments, setComments] = useState();
 
   useEffect(() => {
@@ -34,7 +34,7 @@ const PhotoPage = ({ location }) => {
     fetchComment();
   }, []);
 
-  const { id, photo_url, description, User } = photo;
+  const { id, photo_url, description } = photo;
   const { name, image } = user;
   return loading ? (
     <Spinner />
@@ -64,8 +64,8 @@ const PhotoPage = ({ location }) => {
           <Discription>{description}</Discription>
           <Comment
             id={id}
-            setComment={setComment}
-            comment={comment}
+            setReply={setReply}
+            reply={reply}
             comments={comments}
           />
         </CommentBox>
