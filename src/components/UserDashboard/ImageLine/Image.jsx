@@ -6,13 +6,14 @@ import { api } from '../../../api';
 import Spinner from '../../Common/Spinner';
 import MyLike from '../../Like/MyLike';
 import { setAuthorizedHeader } from '../../Landing/Auth';
+import Pagination from '../../Common/Pagination';
 
-const Image = () => {
+const Image = ({ posts }) => {
   const [popupImage, setPopupImage] = useState(false);
-  const [limit, setLimit] = useState(12);
   const [offset, setOffset] = useState(0);
   const [myPhotos, setMyPhotos] = useState(null);
   const [showImage, setShowImage] = useState([]);
+  const limit = 6;
 
   useEffect(() => {
     setAuthorizedHeader();
@@ -23,7 +24,7 @@ const Image = () => {
       setMyPhotos(response.data);
     };
     fetchImageData();
-  }, []);
+  }, [limit, offset]);
 
   const handleDelete = async image_id => {
     await api.delete(`api/photo/${image_id}`);
@@ -39,43 +40,57 @@ const Image = () => {
     setShowImage(myPhotos[idx]);
   };
   return (
-    <Wrapper>
-      {!myPhotos ? (
-        <Spinner />
-      ) : myPhotos && typeof myPhotos === 'string' ? (
-        <P>{myPhotos}</P>
-      ) : (
-        <>
-          {myPhotos.map((image, idx) => {
-            const { id, photo_url, likeCount } = image;
-            return (
-              <ImageCardWrapper key={id}>
-                <ImageBox
-                  image={
-                    process.env.REACT_APP_S3_IMAGE_ACCESS_POINT + photo_url
-                  }
-                  onClick={() => openModal(idx)}
-                />
-                <ImageInfoBox>
-                  <MyLike count={likeCount} />
-                </ImageInfoBox>
-              </ImageCardWrapper>
-            );
-          })}
-          <Modal
-            popupImage={popupImage}
-            onClose={() => setPopupImage(false)}
-            handleDelete={() => handleDelete(showImage.id)}
-          >
-            <ImageCard modalInfo={showImage} />
-          </Modal>
-        </>
-      )}
-    </Wrapper>
+    <ImageLineWrapper>
+      <Wrapper>
+        {!myPhotos ? (
+          <Spinner />
+        ) : myPhotos && typeof myPhotos === 'string' ? (
+          <P>{myPhotos}</P>
+        ) : (
+          <>
+            {myPhotos.map((image, idx) => {
+              const { id, photo_url, likeCount } = image;
+              return (
+                <ImageCardWrapper key={id}>
+                  <ImageBox
+                    image={
+                      process.env.REACT_APP_S3_IMAGE_ACCESS_POINT + photo_url
+                    }
+                    onClick={() => openModal(idx)}
+                  />
+                  <ImageInfoBox>
+                    <MyLike count={likeCount} />
+                  </ImageInfoBox>
+                </ImageCardWrapper>
+              );
+            })}
+            <Modal
+              popupImage={popupImage}
+              onClose={() => setPopupImage(false)}
+              handleDelete={() => handleDelete(showImage.id)}
+            >
+              <ImageCard modalInfo={showImage} />
+            </Modal>
+          </>
+        )}
+      </Wrapper>
+      <Pagination
+        limit={limit}
+        offset={offset}
+        setOffset={setOffset}
+        posts={posts}
+      />
+    </ImageLineWrapper>
   );
 };
 
 export default Image;
+
+const ImageLineWrapper = styled.div`
+  width: 80%;
+  height: auto;
+  margin: 10rem auto 2rem auto;
+`;
 
 const Wrapper = styled.div`
   width: 100%;

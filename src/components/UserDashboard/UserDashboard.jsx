@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import Profile from './Profile/Profile';
-import ImageLine from './ImageLine/ImageLine';
 import NavbarWrapper from './NavBar/NavbarWrapper';
 import { setAuthToken, isAuthenticated } from '../Landing/Auth';
 import { api } from '../../api';
+import Image from './ImageLine/Image';
 
 const UserDashboard = () => {
   const [currentUser, setCurrentUser] = useState(null);
@@ -33,7 +33,7 @@ const UserDashboard = () => {
         follower={follower}
         setCurrentUser={setCurrentUser}
       />
-      <ImageLine />
+      <Image posts={posts} />
     </NavbarWrapper>
   );
 };
