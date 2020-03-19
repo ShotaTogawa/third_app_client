@@ -17,7 +17,8 @@ const UserDashboard = () => {
     const fetchUser = async () => {
       const response = await api.get('/api/user');
       setCurrentUser(response.data[0]);
-      if (!setPosts(response.data[0].Photos[0])) {
+      console.log(response.data[0]);
+      if (response.data[0].Photos.length === 0) {
         setPosts(0);
       } else {
         setPosts(response.data[0].Photos[0].posts);
@@ -26,7 +27,7 @@ const UserDashboard = () => {
       setFollower(response.data[2].follower.length);
     };
     fetchUser();
-  }, [accessToken]);
+  }, []);
 
   return (
     <NavbarWrapper>

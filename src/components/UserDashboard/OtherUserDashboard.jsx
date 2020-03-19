@@ -19,7 +19,7 @@ const OtherUserDashboard = ({ location }) => {
     const fetchUser = async () => {
       const response = await api.get(`/api/user/${userId}`);
       setUser(response.data[0]);
-      if (!setPosts(response.data[0].Photos[0])) {
+      if (response.data[0].Photos.length === 0) {
         setPosts(0);
       } else {
         setPosts(response.data[0].Photos[0].posts);
