@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import { api } from '../../../api';
 import Spinner from '../../Common/Spinner';
 import MyLike from '../../Like/MyLike';
+import { setAuthorizedHeader } from '../../Landing/Auth';
 
 const Image = () => {
   const [popupImage, setPopupImage] = useState(false);
@@ -14,6 +15,7 @@ const Image = () => {
   const [showImage, setShowImage] = useState([]);
 
   useEffect(() => {
+    setAuthorizedHeader();
     const fetchImageData = async () => {
       const response = await api.get(
         `/api/my-photos/?limit=${limit}&offset=${offset}`
