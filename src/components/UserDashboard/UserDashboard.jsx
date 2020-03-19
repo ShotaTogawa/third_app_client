@@ -17,7 +17,11 @@ const UserDashboard = () => {
     const fetchUser = async () => {
       const response = await api.get('/api/user');
       setCurrentUser(response.data[0]);
-      setPosts(response.data[0].Photos[0].posts);
+      if (!setPosts(response.data[0].Photos[0])) {
+        setPosts(0);
+      } else {
+        setPosts(response.data[0].Photos[0].posts);
+      }
       setFollowee(response.data[1].followee.length);
       setFollower(response.data[2].follower.length);
     };
