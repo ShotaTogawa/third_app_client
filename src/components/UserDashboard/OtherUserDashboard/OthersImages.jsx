@@ -4,11 +4,12 @@ import { api } from '../../../api';
 import Spinner from '../../Common/Spinner';
 import Like from '../../Like/Like';
 import { Link } from 'react-router-dom';
+import Pagination from '../../Common/Pagination';
 
-const OthersImages = ({ userId }) => {
-  const [limit, setLimit] = useState(12);
+const OthersImages = ({ userId, posts }) => {
   const [offset, setOffset] = useState(0);
   const [photos, setPhotos] = useState(null);
+  const limit = 3;
 
   useEffect(() => {
     const fetchImageData = async () => {
@@ -18,41 +19,59 @@ const OthersImages = ({ userId }) => {
       setPhotos(response.data);
     };
     fetchImageData();
-  }, [userId]);
+  }, [userId, offset]);
 
   return (
-    <Wrapper>
-      {!photos ? (
-        <Spinner />
-      ) : photos && typeof photos === 'string' ? (
-        <P>{photos}</P>
-      ) : (
-        photos.map(image => {
-          const { id, photo_url, description, likeCount, isLiked } = image;
-          return (
-            <ImageCard key={id}>
-              <Link to={`/photo/${id}`}>
-                <ImageBox
-                  image={
-                    process.env.REACT_APP_S3_IMAGE_ACCESS_POINT + photo_url
-                  }
-                />
-                <ImageDescription>
-                  <p>{description}</p>
-                </ImageDescription>
-                <ImageInfoBox>
-                  <Like likeCount={likeCount} isLiked={isLiked} photoId={id} />
-                </ImageInfoBox>
-              </Link>
-            </ImageCard>
-          );
-        })
-      )}
-    </Wrapper>
+    <ImageLineWrapper>
+      <Wrapper>
+        {!photos ? (
+          <Spinner />
+        ) : photos && typeof photos === 'string' ? (
+          <P>{photos}</P>
+        ) : (
+          photos.map(image => {
+            const { id, photo_url, description, likeCount, isLiked } = image;
+            return (
+              <ImageCard key={id}>
+                <Link to={`/photo/${id}`}>
+                  <ImageBox
+                    image={
+                      process.env.REACT_APP_S3_IMAGE_ACCESS_POINT + photo_url
+                    }
+                  />
+                  <ImageDescription>
+                    <p>{description}</p>
+                  </ImageDescription>
+                  <ImageInfoBox>
+                    <Like
+                      likeCount={likeCount}
+                      isLiked={isLiked}
+                      photoId={id}
+                    />
+                  </ImageInfoBox>
+                </Link>
+              </ImageCard>
+            );
+          })
+        )}
+      </Wrapper>
+      <Pagination
+        limit={limit}
+        offset={offset}
+        setOffset={setOffset}
+        posts={posts}
+      />
+    </ImageLineWrapper>
   );
 };
 
 export default OthersImages;
+
+const ImageLineWrapper = styled.div`
+  width: 80%;
+  height: auto;
+  margin: 10rem auto 2rem auto;
+`;
 
 const Wrapper = styled.div`
   width: 100%;

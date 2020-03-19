@@ -13,7 +13,7 @@ const Image = ({ posts }) => {
   const [offset, setOffset] = useState(0);
   const [myPhotos, setMyPhotos] = useState(null);
   const [showImage, setShowImage] = useState([]);
-  const limit = 6;
+  const limit = 3;
 
   useEffect(() => {
     setAuthorizedHeader();
@@ -24,7 +24,7 @@ const Image = ({ posts }) => {
       setMyPhotos(response.data);
     };
     fetchImageData();
-  }, [limit, offset]);
+  }, [offset]);
 
   const handleDelete = async image_id => {
     await api.delete(`api/photo/${image_id}`);
