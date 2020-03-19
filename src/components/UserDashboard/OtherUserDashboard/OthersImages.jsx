@@ -55,12 +55,16 @@ const OthersImages = ({ userId, posts }) => {
           })
         )}
       </Wrapper>
-      <Pagination
-        limit={limit}
-        offset={offset}
-        setOffset={setOffset}
-        posts={posts}
-      />
+      {posts > limit ? (
+        <Pagination
+          limit={limit}
+          offset={offset}
+          setOffset={setOffset}
+          posts={posts}
+        />
+      ) : (
+        ''
+      )}
     </ImageLineWrapper>
   );
 };

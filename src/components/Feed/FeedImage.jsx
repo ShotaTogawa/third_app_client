@@ -40,34 +40,32 @@ const Image = () => {
             image
           } = photo;
           return (
-            <>
-              <ImageCard key={id}>
-                <Link to={`/photo/${id}`}>
-                  <ImageBox
-                    image={
-                      process.env.REACT_APP_S3_IMAGE_ACCESS_POINT + photo_url
-                    }
-                  />
-                  <ImageDescription>
-                    {description ? description : 'No description'}
-                  </ImageDescription>
+            <ImageCard key={id}>
+              <Link to={`/photo/${id}`}>
+                <ImageBox
+                  image={
+                    process.env.REACT_APP_S3_IMAGE_ACCESS_POINT + photo_url
+                  }
+                />
+                <ImageDescription>
+                  {description ? description : 'No description'}
+                </ImageDescription>
+              </Link>
+              <ImageInfoBox>
+                <Like likeCount={likeCount} isLiked={isLiked} photoId={id} />
+                <Link to={`/user/${user_id}`}>
+                  {image ? (
+                    <UserImage
+                      image={
+                        process.env.REACT_APP_S3_AVATAR_ACCESS_POINT + image
+                      }
+                    />
+                  ) : (
+                    <DefaultUserImage src={userImage} />
+                  )}
                 </Link>
-                <ImageInfoBox>
-                  <Like likeCount={likeCount} isLiked={isLiked} photoId={id} />
-                  <Link to={`/user/${user_id}`}>
-                    {image ? (
-                      <UserImage
-                        image={
-                          process.env.REACT_APP_S3_AVATAR_ACCESS_POINT + image
-                        }
-                      />
-                    ) : (
-                      <DefaultUserImage src={userImage} />
-                    )}
-                  </Link>
-                </ImageInfoBox>
-              </ImageCard>
-            </>
+              </ImageInfoBox>
+            </ImageCard>
           );
         })
       ) : (
