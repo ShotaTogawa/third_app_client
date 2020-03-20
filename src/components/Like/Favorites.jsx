@@ -10,7 +10,7 @@ import NavbarWrapper from '../UserDashboard/NavBar/NavbarWrapper';
 const OthersImages = () => {
   const [offset, setOffset] = useState(0);
   const [photos, setPhotos] = useState(null);
-  const [countPhotos, setCountPhotos] = useState();
+  const [countPhotos, setCountPhotos] = useState(0);
   const limit = 5;
 
   useEffect(() => {
@@ -23,7 +23,6 @@ const OthersImages = () => {
     };
     fetchImageData();
   }, [offset]);
-  console.log(countPhotos);
 
   return (
     <NavbarWrapper>
@@ -60,16 +59,12 @@ const OthersImages = () => {
             })
           )}
         </Wrapper>
-        {countPhotos > limit ? (
-          <Pagination
-            limit={limit}
-            offset={offset}
-            setOffset={setOffset}
-            posts={countPhotos}
-          />
-        ) : (
-          ''
-        )}
+        <Pagination
+          limit={limit}
+          offset={offset}
+          setOffset={setOffset}
+          posts={countPhotos}
+        />
       </ImageLineWrapper>
     </NavbarWrapper>
   );
