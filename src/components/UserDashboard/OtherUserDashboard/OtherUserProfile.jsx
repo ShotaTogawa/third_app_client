@@ -1,8 +1,18 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import userImage from '../../../assets/images/user.svg';
+import { api } from '../../../api';
+import { setAuthorizedHeader } from '../../Landing/Auth';
 
-const OtherUserProfile = ({ user, followee, follower, posts }) => {
+const OtherUserProfile = ({
+  user,
+  countFollower,
+  countFollowee,
+  posts,
+  followee,
+  handleFollow,
+  handleUnfollow
+}) => {
   return (
     <ProfileWrapper>
       {user ? (
@@ -19,12 +29,21 @@ const OtherUserProfile = ({ user, followee, follower, posts }) => {
           <ProfileInfoBox>
             <Name>
               <h2>{user.name}</h2>
+              {followee.length > 0 && followee.includes(user.id) ? (
+                <FollowButton onClick={() => handleUnfollow(user.id)}>
+                  UnFollow
+                </FollowButton>
+              ) : (
+                <FollowButton onClick={() => handleFollow(user.id)}>
+                  Follow
+                </FollowButton>
+              )}
             </Name>
             <Counter>
               <UL>
                 <ListItem>Posts {posts}</ListItem>
-                <ListItem>Follow {followee}</ListItem>
-                <ListItem>Followers {follower}</ListItem>
+                <ListItem>Follow {countFollowee}</ListItem>
+                <ListItem>Followers {countFollower}</ListItem>
               </UL>
             </Counter>
             <Introduction>{user.introduction}</Introduction>
@@ -101,4 +120,26 @@ const Introduction = styled.div`
   height: 10rem;
   font-size: 1.8rem;
   letter-spacing: 0.1rem;
+`;
+
+const FollowButton = styled.button`
+  display: block;
+  width: 100px;
+  margin-left: 1rem;
+  padding: 3px 3px;
+  background-color: rgba(109, 213, 250, 0.8);
+  color: #fff;
+  border: 2px solid #fff;
+  border-radius: 50px;
+  outline: none;
+  font-family: 'Roboto Condensed', sans-serif;
+  font-size: 15px;
+  letter-spacing: 1px;
+  cursor: pointer;
+  :hover {
+    background: linear-gradient(
+      rgba(41, 128, 185, 0.3),
+      rgba(109, 213, 250, 0.8)
+    );
+  }
 `;
