@@ -33,6 +33,12 @@ const Navbar = ({ setSideDrawerOpen, history }) => {
               </Link>
             </Li>
             <Li>
+              <i class="far fa-star"></i>
+            </Li>
+            <Li>
+              <i class="fas fa-users"></i>
+            </Li>
+            <Li>
               <Link to="/search" style={LinkStyle}>
                 <i className="fas fa-search-plus"></i>
               </Link>

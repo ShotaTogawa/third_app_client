@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import userImage from '../../../assets/images/user.svg';
 import { api } from '../../../api';
-import { setAuthorizedHeader } from '../../Landing/Auth';
+import { isAuthenticated } from '../../Landing/Auth';
 
 const OtherUserProfile = ({
   user,
@@ -13,6 +13,7 @@ const OtherUserProfile = ({
   handleFollow,
   handleUnfollow
 }) => {
+  const { userId } = isAuthenticated();
   return (
     <ProfileWrapper>
       {user ? (
@@ -29,7 +30,9 @@ const OtherUserProfile = ({
           <ProfileInfoBox>
             <Name>
               <h2>{user.name}</h2>
-              {followee.length > 0 && followee.includes(user.id) ? (
+              {userId === user.id ? (
+                ''
+              ) : followee.length > 0 && followee.includes(user.id) ? (
                 <FollowButton onClick={() => handleUnfollow(user.id)}>
                   UnFollow
                 </FollowButton>
