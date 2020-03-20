@@ -3,10 +3,14 @@ import styled from 'styled-components';
 
 const Pagination = ({ limit, offset, setOffset, posts }) => {
   const [currentPage, setCurrentPage] = useState(1);
-  const offsetPlusOneIsMoreThanEqualPosts = posts <= offset + 1;
-  const limitIsMoreThanPosts = posts < limit;
+  const notDisplayPaginationOffsetPlusOneIsGreaterThanEqualPosts =
+    posts <= offset + 1;
+  const notDisplayPaginationlimitIsGreaterThanPosts = posts < limit;
   const addPage = () => {
-    if (offsetPlusOneIsMoreThanEqualPosts || limitIsMoreThanPosts) {
+    if (
+      notDisplayPaginationOffsetPlusOneIsGreaterThanEqualPosts ||
+      notDisplayPaginationlimitIsGreaterThanPosts
+    ) {
       return '';
     }
 
