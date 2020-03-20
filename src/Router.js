@@ -9,6 +9,7 @@ import Search from './components/SearchImage/Search';
 import CreateImage from './components/CreateImage/CreateImage';
 import OtherUserDashboard from './components/UserDashboard/OtherUserDashboard';
 import PhotoPage from './components/PhotoPage/PhotoPage';
+import Favorites from './components/Like/Favorites';
 
 const Router = () => {
   return (
@@ -21,6 +22,7 @@ const Router = () => {
         <PrivateRoute path="/create" exact component={CreateImage} />
         <PrivateRoute path="/user/:id" exact component={OtherUserDashboard} />
         <PrivateRoute path="/photo/:photoId" component={PhotoPage} />
+        <PrivateRoute path="/favorites" component={Favorites} />
       </Switch>
     </BrowserRouter>
   );
