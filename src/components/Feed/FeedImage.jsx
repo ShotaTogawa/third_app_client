@@ -5,21 +5,24 @@ import Spinner from '../Common/Spinner';
 import userImage from '../../assets/images/user.svg';
 import { Link } from 'react-router-dom';
 import Like from '../Like/Like';
+import Pagination from '../Common/Pagination';
 
 const Image = () => {
   const [images, setImages] = useState(null);
-  const [limit, setLimit] = useState(12);
+  const [postsCount, setPostsCount] = useState(0);
   const [offset, setOffset] = useState(0);
+  const limit = 6;
 
   useEffect(() => {
     const fetchData = async () => {
       const response = await api.get(
         `/api/photos/?limit=${limit}&offset=${offset}`
       );
-      setImages(response.data);
+      setImages(response.data[0]);
+      setPostsCount(response.data[1].count);
     };
     fetchData();
-  }, []);
+  }, [offset]);
 
   return (
     <Wrapper>
@@ -68,6 +71,12 @@ const Image = () => {
       ) : (
         <P>You have not posted photos yet</P>
       )}
+      <Pagination
+        limit={limit}
+        offset={offset}
+        setOffset={setOffset}
+        posts={postsCount}
+      />
     </Wrapper>
   );
 };
@@ -76,6 +85,7 @@ export default Image;
 
 const Wrapper = styled.div`
   width: 100%;
+  margin-top: 10rem;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;

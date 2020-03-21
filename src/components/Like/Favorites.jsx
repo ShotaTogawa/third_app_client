@@ -1,67 +1,72 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { api } from '../../../api';
-import Spinner from '../../Common/Spinner';
-import Like from '../../Like/Like';
+import { api } from '../../api';
+import Spinner from '../Common/Spinner';
+import Like from './Like';
 import { Link } from 'react-router-dom';
-import Pagination from '../../Common/Pagination';
+import Pagination from '../Common/Pagination';
+import NavbarWrapper from '../UserDashboard/NavBar/NavbarWrapper';
 
-const OthersImages = ({ userId, posts }) => {
+const OthersImages = () => {
   const [offset, setOffset] = useState(0);
   const [photos, setPhotos] = useState(null);
-  const limit = 3;
+  const [countPhotos, setCountPhotos] = useState(0);
+  const limit = 5;
 
   useEffect(() => {
     const fetchImageData = async () => {
       const response = await api.get(
-        `/api/photos/${userId}?limit=${limit}&offset=${offset}`
+        `/api/favorites/?limit=${limit}&offset=${offset}`
       );
-      setPhotos(response.data);
+      setPhotos(response.data[0]);
+      setCountPhotos(response.data[1].count);
     };
     fetchImageData();
-  }, [userId, offset]);
+  }, [offset]);
 
   return (
-    <ImageLineWrapper>
-      <Wrapper>
-        {!photos ? (
-          <Spinner />
-        ) : photos && typeof photos === 'string' ? (
-          <P>{photos}</P>
-        ) : (
-          photos.map(image => {
-            const { id, photo_url, description, likeCount, isLiked } = image;
-            return (
-              <ImageCard key={id}>
-                <Link to={`/photo/${id}`}>
-                  <ImageBox
-                    image={
-                      process.env.REACT_APP_S3_IMAGE_ACCESS_POINT + photo_url
-                    }
-                  />
-                  <ImageDescription>
-                    <p>{description}</p>
-                  </ImageDescription>
-                  <ImageInfoBox>
-                    <Like
-                      likeCount={likeCount}
-                      isLiked={isLiked}
-                      photoId={id}
+    <NavbarWrapper>
+      <ImageLineWrapper>
+        <Wrapper>
+          {!photos ? (
+            <Spinner />
+          ) : photos && typeof photos === 'string' ? (
+            <P>{photos}</P>
+          ) : (
+            photos.map(image => {
+              const { id, photo_url, description, likeCount, isLiked } = image;
+              return (
+                <ImageCard key={id}>
+                  <Link to={`/photo/${id}`}>
+                    <ImageBox
+                      image={
+                        process.env.REACT_APP_S3_IMAGE_ACCESS_POINT + photo_url
+                      }
                     />
-                  </ImageInfoBox>
-                </Link>
-              </ImageCard>
-            );
-          })
-        )}
-      </Wrapper>
-      <Pagination
-        limit={limit}
-        offset={offset}
-        setOffset={setOffset}
-        posts={posts}
-      />
-    </ImageLineWrapper>
+                    <ImageDescription>
+                      <p>{description}</p>
+                    </ImageDescription>
+                    <ImageInfoBox>
+                      <Like
+                        likeCount={likeCount}
+                        isLiked={isLiked}
+                        photoId={id}
+                      />
+                    </ImageInfoBox>
+                  </Link>
+                </ImageCard>
+              );
+            })
+          )}
+        </Wrapper>
+        <Pagination
+          limit={limit}
+          offset={offset}
+          setOffset={setOffset}
+          posts={countPhotos}
+        />
+      </ImageLineWrapper>
+    </NavbarWrapper>
   );
 };
 
