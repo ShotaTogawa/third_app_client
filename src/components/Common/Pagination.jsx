@@ -3,13 +3,17 @@ import styled from 'styled-components';
 
 const Pagination = ({ limit, offset, setOffset, posts }) => {
   const [currentPage, setCurrentPage] = useState(1);
+  const notDisplayPaginationOffsetPlusOneIsGreaterThanEqualPosts =
+    posts <= offset + 1;
+  const notDisplayPaginationlimitIsGreaterThanPosts = posts < limit;
   const addPage = () => {
-    if (posts <= offset + 1) {
+    if (
+      notDisplayPaginationOffsetPlusOneIsGreaterThanEqualPosts ||
+      notDisplayPaginationlimitIsGreaterThanPosts
+    ) {
       return '';
     }
-    if (posts < limit) {
-      return '';
-    }
+
     setOffset(offset + limit);
     setCurrentPage(currentPage + 1);
   };
@@ -22,15 +26,19 @@ const Pagination = ({ limit, offset, setOffset, posts }) => {
     setCurrentPage(currentPage - 1);
   };
 
-  return (
-    <PaginationWrapper>
-      <PaginationBlock>
-        <Arrows onClick={minusPage}>❮</Arrows>
-        <CurrentPage>{currentPage} Page</CurrentPage>
-        <Arrows onClick={addPage}>❯</Arrows>
-      </PaginationBlock>
-    </PaginationWrapper>
-  );
+  const renderPagination = () => {
+    return (
+      <PaginationWrapper>
+        <PaginationBlock>
+          <Arrows onClick={minusPage}>❮</Arrows>
+          <CurrentPage>{currentPage} Page</CurrentPage>
+          <Arrows onClick={addPage}>❯</Arrows>
+        </PaginationBlock>
+      </PaginationWrapper>
+    );
+  };
+
+  return posts > limit ? renderPagination() : '';
 };
 
 export default Pagination;

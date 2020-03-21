@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import userImage from '../../../assets/images/user.svg';
-import { api } from '../../../api';
 import { isAuthenticated } from '../../Landing/Auth';
 
 const OtherUserProfile = ({

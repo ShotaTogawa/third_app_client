@@ -38,7 +38,9 @@ const Navbar = ({ setSideDrawerOpen, history }) => {
               </Link>
             </Li>
             <Li>
-              <i className="fas fa-users"></i>
+              <Link to="/friends" style={LinkStyle}>
+                <i className="fas fa-users"></i>
+              </Link>
             </Li>
             <Li>
               <Link to="/search" style={LinkStyle}>

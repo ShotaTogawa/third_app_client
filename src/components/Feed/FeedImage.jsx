@@ -71,16 +71,12 @@ const Image = () => {
       ) : (
         <P>You have not posted photos yet</P>
       )}
-      {postsCount > limit ? (
-        <Pagination
-          limit={limit}
-          offset={offset}
-          setOffset={setOffset}
-          posts={postsCount}
-        />
-      ) : (
-        ''
-      )}
+      <Pagination
+        limit={limit}
+        offset={offset}
+        setOffset={setOffset}
+        posts={postsCount}
+      />
     </Wrapper>
   );
 };
