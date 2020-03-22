@@ -2,7 +2,8 @@ module.exports = {
   env: {
     browser: true,
     es6: true,
-    'jest/globals': true
+    'jest/globals': true,
+    'cypress/globals': true
   },
   extends: [
     'plugin:react/recommended',
@@ -20,7 +21,7 @@ module.exports = {
     ecmaVersion: 2018,
     sourceType: 'module'
   },
-  plugins: ['react', 'jest', 'prettier'],
+  plugins: ['react', 'jest', 'prettier', 'cypress'],
   rules: {
     'prettier/prettier': [
       'error',
@@ -28,6 +29,10 @@ module.exports = {
         singleQuote: true,
         semi: true
       }
-    ]
+    ],
+    'cypress/no-assigning-return-values': 'error',
+    'cypress/no-unnecessary-waiting': 'error',
+    'cypress/assertion-before-screenshot': 'warn',
+    'cypress/no-force': 'warn'
   }
-}
+};
