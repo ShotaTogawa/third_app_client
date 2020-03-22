@@ -23,9 +23,7 @@ const Login = ({ history }) => {
 
   const isFormValid = () => {
     if (isFormEmpty(values)) {
-      // setValues({ ...values, error: "Please fill in all Fields" });
       setError('Please fill in all Fields');
-      console.log(error);
       return false;
     }
     return true;
@@ -42,7 +40,9 @@ const Login = ({ history }) => {
       authenticate(response.data);
       history.push('/user');
     } catch (e) {
-      console.log(e);
+      values.email = '';
+      values.password = '';
+      setError('Login failed');
     }
   };
 
