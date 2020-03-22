@@ -35,10 +35,15 @@ const Login = ({ history }) => {
 
   const signin = async formValue => {
     try {
-      const response = await api.post('/api/signin', formValue);
-      setAuthToken(response.data.token);
-      authenticate(response.data);
-      history.push('/user');
+      if (isFormValid()) {
+        const response = await api.post('/api/signin', formValue);
+        if (typeof response.data === 'string') {
+          return setError(response.data);
+        }
+        setAuthToken(response.data.token);
+        authenticate(response.data);
+        history.push('/user');
+      }
     } catch (e) {
       values.email = '';
       values.password = '';
@@ -48,7 +53,6 @@ const Login = ({ history }) => {
 
   const handleSubmit = e => {
     e.preventDefault();
-    isFormValid();
     setLoading(true);
     signin(values);
     setLoading(false);
