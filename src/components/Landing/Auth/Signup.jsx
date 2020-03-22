@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { ErrorMessage } from '../../Common/ErrorMessage';
-import { setAuthToken } from '.';
+import { authenticate, setAuthorizedHeader } from '.';
 import { api } from '../../../api';
 import Spinner from '../../Common/Spinner';
-import { authenticate } from '../Auth';
 import { withRouter } from 'react-router-dom';
 
 const Signup = ({ history }) => {
@@ -52,14 +51,19 @@ const Signup = ({ history }) => {
   };
 
   const signup = async formValue => {
-    isFormValid();
     try {
-      const response = await api.post('/api/signup', formValue);
-      setAuthToken(response.data.token);
-      authenticate(response.data);
-      history.push('/user');
+      if (isFormValid()) {
+        const response = await api.post('/api/signup', formValue);
+        if (typeof response.data === 'string') {
+          return setError(response.data);
+        }
+
+        authenticate(response.data);
+        setAuthorizedHeader();
+        history.push('/user');
+      }
     } catch (e) {
-      console.log(e);
+      setError('Failed to sign up');
     }
   };
 
