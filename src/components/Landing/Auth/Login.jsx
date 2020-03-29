@@ -68,12 +68,14 @@ const Login = ({ history }) => {
           placeholder="EMAIL ADDRESS"
           value={email}
           onChange={handleChange('email')}
+          data-cy="email"
         />
         <Input
           type="password"
           placeholder="PASSWORD"
           value={password}
           onChange={handleChange('password')}
+          data-cy="password"
         />
         <SigninButton type="submit">Sign In Here</SigninButton>
         {error ? <ErrorMessage>{error}</ErrorMessage> : ''}

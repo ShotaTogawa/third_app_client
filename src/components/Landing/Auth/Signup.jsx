@@ -83,24 +83,28 @@ const Signup = ({ history }) => {
           placeholder="NAME"
           value={name}
           onChange={handleChange('name')}
+          data-cy="name"
         />
         <Input
           type="email"
           placeholder="EMAIL ADDRESS"
           value={email}
           onChange={handleChange('email')}
+          data-cy="email"
         />
         <Input
           type="password"
           placeholder="PASSWORD"
           value={password}
           onChange={handleChange('password')}
+          data-cy="password"
         />
         <Input
           type="password"
           placeholder="PASSWORD COMFIRMATION"
           value={confirmPassword}
           onChange={e => setConfirmPassword(e.target.value)}
+          data-cy="passwordConfirmation"
         />
         <SigninButton type="submit">Sign Up Here</SigninButton>
         {error ? <ErrorMessage>{error}</ErrorMessage> : ''}
