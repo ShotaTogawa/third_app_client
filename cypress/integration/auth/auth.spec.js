@@ -3,7 +3,7 @@ describe('Login / Logout Test', () => {
     cy.clearLocalStorage();
     cy.clearCookies();
     cy.visit('http://localhost:3000');
-    cy.get('h2').should('be.visible');
+    cy.contains('Join now!');
   });
 
   it('should show up signup modal', () => {
@@ -39,7 +39,7 @@ describe('Login / Logout Test', () => {
 
   it.skip('should logout successfully', () => {
     cy.contains('Logout').click();
-    cy.get('h2').should('be.visible');
+    cy.contains('Join now!');
   });
 
   it('should close modal', () => {
@@ -67,8 +67,8 @@ describe('Login / Logout Test', () => {
     cy.get('nav').should('be.visible');
   });
 
-  it('should logout successfully', async () => {
+  it('should logout successfully', () => {
     cy.contains('Logout').click();
-    cy.get('h2').should('be.visible');
+    cy.contains('Join now!');
   });
 });

@@ -1,13 +1,12 @@
 import React from 'react';
 import Landing from './Landing/Landing';
-import { isAuthenticated } from './Landing/Auth';
 import { Redirect } from 'react-router-dom';
-const { accessToken } = isAuthenticated();
 
 const redirectUser = () => {
-  if (accessToken) return <Redirect to="/user" />;
+  const authState = localStorage.getItem('jwt');
+  if (authState) return <Redirect to="/user" />;
 
-  if (!accessToken) return <Redirect to="/" />;
+  if (!authState) return <Redirect to="/" />;
 };
 
 const App = () => {
