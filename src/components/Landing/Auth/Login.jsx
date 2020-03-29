@@ -23,9 +23,7 @@ const Login = ({ history }) => {
 
   const isFormValid = () => {
     if (isFormEmpty(values)) {
-      // setValues({ ...values, error: "Please fill in all Fields" });
       setError('Please fill in all Fields');
-      console.log(error);
       return false;
     }
     return true;
@@ -37,18 +35,24 @@ const Login = ({ history }) => {
 
   const signin = async formValue => {
     try {
-      const response = await api.post('/api/signin', formValue);
-      setAuthToken(response.data.token);
-      authenticate(response.data);
-      history.push('/user');
+      if (isFormValid()) {
+        const response = await api.post('/api/signin', formValue);
+        if (typeof response.data === 'string') {
+          return setError(response.data);
+        }
+        setAuthToken(response.data.token);
+        authenticate(response.data);
+        history.push('/user');
+      }
     } catch (e) {
-      console.log(e);
+      values.email = '';
+      values.password = '';
+      setError('Login failed');
     }
   };
 
   const handleSubmit = e => {
     e.preventDefault();
-    isFormValid();
     setLoading(true);
     signin(values);
     setLoading(false);
@@ -64,12 +68,14 @@ const Login = ({ history }) => {
           placeholder="EMAIL ADDRESS"
           value={email}
           onChange={handleChange('email')}
+          data-cy="email"
         />
         <Input
           type="password"
           placeholder="PASSWORD"
           value={password}
           onChange={handleChange('password')}
+          data-cy="password"
         />
         <SigninButton type="submit">Sign In Here</SigninButton>
         {error ? <ErrorMessage>{error}</ErrorMessage> : ''}
