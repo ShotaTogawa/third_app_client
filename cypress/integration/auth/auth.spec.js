@@ -55,8 +55,8 @@ describe('Login / Logout Test', () => {
   });
 
   it('should login with valid inputs', () => {
-    cy.get('[type="email"]').clear();
-    cy.get('[type="password"]').clear();
+    cy.get('[data-cy=email]').clear();
+    cy.get('[data-cy=password]').clear();
     cy.get('[data-cy=email]').type('newTest@test.com');
     cy.get('[data-cy=password]').type('password');
     cy.contains('Sign In Here').click();
